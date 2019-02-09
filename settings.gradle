@@ -1,0 +1,6 @@
+rootProject.name = 'Knowledge'
+include 'KnowledgeOfNio'
+include 'KnowledgeOfNetty'
+include 'KnowledgeOfStream'
+include 'KnowledgeOfQuartz'
+
