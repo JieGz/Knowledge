@@ -34,8 +34,8 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("服务器接收到来自客户端的消息：" + in.toString(CharsetUtil.UTF_8));
         String sendStr = new Date().toString();
         //write方法会异步发送应答消息给客户端,在调用write()方法时，只会把消息发送到缓冲数组当中，通过调用flush(),会将缓冲区中的消息全部写到
-        //SocketChannel中
-        ctx.write(sendStr);
+        //SocketChannel中。这里有一个天坑，只能写字节数组这种东西，不能直接写字符串
+        ctx.write(Unpooled.copiedBuffer(sendStr.getBytes()));
     }
 
     /**
