@@ -1,4 +1,4 @@
-package com.demo.netty;
+package com.demo.netty.introduction;
 
 
 import io.netty.buffer.ByteBuf;
@@ -12,7 +12,7 @@ import io.netty.util.CharsetUtil;
 import java.util.Date;
 
 /**
- * {@link Sharable} 标示一个ChannelHandler可以被多个Channel安全地共享
+ * {@link Sharable} 标示一个ChannelHandler可以被多个Channel安全地共享(应该确保ChannelHandler是线程安全的才能例用该注解)
  *
  * @author 揭光智
  * @date 2019/02/08

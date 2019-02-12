@@ -1,4 +1,4 @@
-package com.demo.netty;
+package com.demo.netty.introduction;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -35,7 +35,7 @@ public class EchoServer {
             //1: 指定NioEventLoopGroup线程组来接受和处理新的连接
             //2：指定使用的NIO传输Channel
             //3：设置端口号
-            //4: 添加一个EchoServerHandler到子ChannelHandler的ChannelPipeline
+            //4: 添加一个EchoServerHandler到子ChannelHandler的ChannelPipeline[子Channel]
             b.group(group)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(port))
