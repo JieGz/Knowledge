@@ -3,4 +3,5 @@ include 'KnowledgeOfNio'
 include 'KnowledgeOfNetty'
 include 'KnowledgeOfStream'
 include 'KnowledgeOfQuartz'
+include 'KnowledgeOfDesignPatterns'
 
