@@ -5,7 +5,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 
 /**
  * {@link Sharable} 标示该Handler可以被多个Channel安全共享
@@ -14,7 +13,7 @@ import io.netty.util.CharsetUtil;
  * @date 2019/02/09
  */
 @ChannelHandler.Sharable
-public class TimeClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class TimeClientHandler extends SimpleChannelInboundHandler<String> {
 
     private byte[] req;
 
@@ -49,8 +48,8 @@ public class TimeClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
      * @throws Exception 异常
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
-        System.out.println("客户端接收到服务器的消息：" + msg.toString(CharsetUtil.UTF_8));
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        System.out.println("客户端接收到服务器的消息：" + msg);
     }
 
     /**
