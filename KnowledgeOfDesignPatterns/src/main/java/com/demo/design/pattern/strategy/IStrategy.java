@@ -1,6 +1,8 @@
 package com.demo.design.pattern.strategy;
 
 /**
+ * 策略模式
+ *
  * @author 揭光智
  * @date 2019/02/12
  */
