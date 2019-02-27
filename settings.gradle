@@ -6,4 +6,5 @@ include 'KnowledgeOfQuartz'
 include 'KnowledgeOfDesignPatterns'
 include 'KnowledgeOfAop'
 include 'KnowledgeOfAnnotation'
+include 'KnowledgeOfSpringBootAop'
 
