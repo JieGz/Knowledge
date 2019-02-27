@@ -5,4 +5,5 @@ include 'KnowledgeOfStream'
 include 'KnowledgeOfQuartz'
 include 'KnowledgeOfDesignPatterns'
 include 'KnowledgeOfAop'
+include 'KnowledgeOfAnnotation'
 
