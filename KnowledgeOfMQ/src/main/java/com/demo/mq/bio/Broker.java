@@ -1,4 +1,4 @@
-package com.demo.mq;
+package com.demo.mq.bio;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
