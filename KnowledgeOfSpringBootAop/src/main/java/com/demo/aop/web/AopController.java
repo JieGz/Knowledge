@@ -1,6 +1,8 @@
 package com.demo.aop.web;
 
 import com.demo.aop.seller.Seller;
+import com.demo.aop.waiter.NaiveWaiter;
+import com.demo.aop.waiter.NaughtyWaiter;
 import com.demo.aop.waiter.Waiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AopController {
 
     @Autowired
-    private Waiter naiveWaiter;
+    private NaughtyWaiter naiveWaiter;
 
     @GetMapping("test")
     public String test() {

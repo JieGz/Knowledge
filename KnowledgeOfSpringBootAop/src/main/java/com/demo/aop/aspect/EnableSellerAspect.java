@@ -19,6 +19,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnableSellerAspect {
 
-    @DeclareParents(value = "com.demo.aop.waiter.NaiveWaiter", defaultImpl = SmartSeller.class)
+    @DeclareParents(value = "com.demo.aop.waiter.NaughtyWaiter", defaultImpl = SmartSeller.class)
     private Seller seller;
 }
