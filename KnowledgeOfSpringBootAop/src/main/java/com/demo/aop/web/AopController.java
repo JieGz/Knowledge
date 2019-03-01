@@ -16,16 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AopController {
 
     @Autowired
-    private NaughtyWaiter naiveWaiter;
+    private NaiveWaiter naiveWaiter;
 
     @GetMapping("test")
     public String test() {
 
         naiveWaiter.greetTo("光智");
-
-        Seller seller = (Seller) naiveWaiter;
-
-        seller.sell("Beer", "光智");
 
         return "succeed";
     }
