@@ -9,4 +9,5 @@ include 'KnowledgeOfAnnotation'
 include 'KnowledgeOfSpringBootAop'
 include 'KnowledgeOfMQ'
 include 'KnowledgeOfSpringCache'
+include 'KnowledgeOfThread'
 
