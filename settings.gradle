@@ -10,4 +10,5 @@ include 'KnowledgeOfSpringBootAop'
 include 'KnowledgeOfMQ'
 include 'KnowledgeOfSpringCache'
 include 'KnowledgeOfThread'
+include 'KnowledgeOfUnsafeClass'
 
