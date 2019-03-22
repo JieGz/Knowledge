@@ -99,7 +99,8 @@ CREATE TABLE tb_emp5 (
         REFERENCES tb_dept1 (id)
 );
 
-#非空约束
+#非空约束.
+
 CREATE TABLE tb_emp6(
 	id INT(11) PRIMARY KEY,
     name VARCHAR(25) NOT NULL,
@@ -115,6 +116,7 @@ CREATE TABLE tb_dept2(
 );
 
 #[ CONSTRAINT <约束名> UNIQUE(<字段名>)]
+
 CREATE TABLE tb_empt3(
 	id INT(11) PRIMARY KEY,
     name VARCHAR(22),
@@ -124,15 +126,40 @@ CREATE TABLE tb_empt3(
 #UNIQUE和PRIMARY KEY的区别:一个表中可以有多个字段声明为UNIQUE,但只能有一个字段被声明为PRIMARY KEY,
 #声明为PRIMARY KEY的列不允许为空值(NULL),但是声明为UNIQUE的字段可以为空值(NULL)
 
-#默认约束
+#默认约束:指定列的默认值
+#如果插入一条新的记录时,没有为这个字段赋值，那么系统为自动为这个字段设置为你设置的默认值
+CREATE TABLE tb_emp7(
+	id INT(11) PRIMARY KEY,
+    name VARCHAR(25) NOT NULL,
+    deptId INT(11) DEFAULT 1,
+    salary FLOAT
+);
 
+#设置属性值自动增加,一个表只能有一个字段使用AUTO_INCREMENT约束,且该字段只能是主键的一部分（主键是有两种的噢，如果回忆不起来，看上面）,它可以约束任务整形类型(TINYINT,SMALLIN,INT,BIGINT等),默认添加一条新的记录,就会自动增加1.
+CREATE TABLE tb_emp8(
+	id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(25) NOT NULL,
+    deptId INT(11) DEFAULT 1,
+    salary FLOAT
+);
 
+#查看数据表的基本结构
+#NULL:表示该列是否可以存储NULL值
+#Key:表示该列是否已编制索引.PRI表示该列是表主键的一部分;UNI:表示该列是UNIQUE索引的一部分;MUL表示该列中某个给定值允许出现多次.
+#Default:表示该列是否有默认值,如果有的话值是多少.
+#Extra:表示可以获取的与给定列有关的附加信息,比如AUTO_INCREMENT等.
+DESCRIBE tb_emp8;
+DESC tb_emp8;
+DESCRIBE tb_dept2;
 
+#查看表的详细结构 
+SHOW CREATE TABLE tb_emp8;
 
+SHOW TABLES;
 
+SHOW CREATE TABLE tb_dept3;
 
-
-
-
+#修改表名
+ALTER TABLE tb_empt3 RENAME TO tb_dept3;
 
 
