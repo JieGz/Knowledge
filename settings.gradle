@@ -12,4 +12,5 @@ include 'KnowledgeOfSpringCache'
 include 'KnowledgeOfThread'
 include 'KnowledgeOfUnsafeClass'
 include 'KnowledgeOfLocalDateTime'
+include 'KnowledgeOfJUC'
 
