@@ -135,7 +135,7 @@ CREATE TABLE tb_emp7(
     salary FLOAT
 );
 
-#设置属性值自动增加,一个表只能有一个字段使用AUTO_INCREMENT约束,且该字段只能是主键的一部分（主键是有两种的噢，如果回忆不起来，看上面）,它可以约束任务整形类型(TINYINT,SMALLIN,INT,BIGINT等),默认添加一条新的记录,就会自动增加1.
+#设置属性值自动增加,一个表只能有一个字段使用AUTO_INCREMENT约束,且该字段只能是主键的一部分（主键是有两种的噢，如果回忆不起来，看上面）,它可以约束任务整形类型(TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT等),默认添加一条新的记录,就会自动增加1.
 CREATE TABLE tb_emp8(
 	id INT(11) PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(25) NOT NULL,
@@ -162,4 +162,20 @@ SHOW CREATE TABLE tb_dept3;
 #修改表名
 ALTER TABLE tb_empt3 RENAME TO tb_dept3;
 
+DESCRIBE tb_dept1;
 
+#修改字段的数据类型
+ALTER TABLE tb_emp MODIFY name VARCHAR(30);
+
+#修改字段名 
+ALTER TABLE tb_dept1 CHANGE location loc VARCHAR(55);
+
+#添加字段:无约束,有约束,添加到第一列,添加到指定列后面,默认是添加到最后.
+ALTER TABLE tb_dept1 ADD phone VARCHAR(11);
+#删除字段
+ALTER TABLE tb_dept1 DROP phone;
+#修改字段的排列位置
+#更改表的存储引擎
+ALTER TABLE tb_emp ENGINE=MyISAM;
+#删除表的外键约束
+#删除表:如果存在外键约束,那么主能是不能直接删除的,需要先删除外键约束.
