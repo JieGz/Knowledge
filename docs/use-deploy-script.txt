@@ -1,0 +1,3 @@
+#deploy-script.sh脚本名,arg1:项目名,arg2:环境,arg3:部署的服务器Ip,arg4:端口号,arg5:是否执行QueryDsl任务
+./deploy-script.sh ${JOB_NAME} dev "172.16.0.183" 8080 true
+
