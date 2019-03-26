@@ -179,3 +179,87 @@ ALTER TABLE tb_dept1 DROP phone;
 ALTER TABLE tb_emp ENGINE=MyISAM;
 #删除表的外键约束
 #删除表:如果存在外键约束,那么主能是不能直接删除的,需要先删除外键约束.
+
+#水果表
+CREATE TABLE fruits(
+	f_id char(10) PRIMARY KEY,
+    s_id INT NOT NULL,
+    f_name char(255) NOT NULL,
+    f_price decimal(8,2) NOT NULL
+);
+
+INSERT INTO fruits(f_id,s_id,f_name,f_price)
+VALUES('a1',101,'apple',5.2),
+('b1',101,'blackberry',10.2),
+('bs1',102,'orange',11.2),
+('bs2',105,'melon',8.2),
+('t1',102,'banana',10.3),
+('t2',102,'grape',5.3),
+('o2',103,'coconut',9.2),
+('c0',101,'cherry',3.2),
+('l2',104,'lemon',6.4),
+('b2',104,'berry',7.6),
+('m1',106,'mango',15.7),
+('m2',105,'xbabay',2.6),
+('t4',107,'xbababa',3.6),
+('m3',105,'xxtt',11.6),
+('b5',107,'xxxx',3.6);
+
+
+#供应商
+CREATE TABLE suppliers(
+	s_id int PRIMARY KEY AUTO_INCREMENT,
+    s_name char(50) NOT NULL,
+    s_city char(50) NULL,
+    s_zip char(10) NULL,
+    s_call char(50) NOT NULL
+);
+
+INSERT INTO  suppliers(s_id,s_name,s_city,s_zip,s_call)
+VALUES(101,'FastFruit Inc','TianJin','300000','48075'),
+(102,'LT suppliers','Chongqing','400000','44333'),
+(103,'ACME','Shanghai','200000','90046'),
+(104,'FNK Inc','ZhongShan','030000','11111'),
+(105,'Good Set','Taiyuang','010','22222'),
+(106,'Just eat Ours','Beijing','400000','45678'),
+(107,'DK Inc','Zhengzhou','450000','33332');
+
+DESCRIBE fruits;
+DESCRIBE suppliers;
+
+SELECT suppliers.s_id, suppliers.s_name,f_name,f_price FROM fruits,suppliers WHERE fruits.s_id = suppliers.s_id;
+
+SELECT suppliers.s_id, suppliers.s_name,f_name,f_price FROM fruits INNER JOIN suppliers ON fruits.s_id = suppliers.s_id;
+
+CREATE TABLE customers(
+	c_id INT PRIMARY KEY AUTO_INCREMENT,
+    c_name char(50)  NOT NULL,
+    c_address char(50) NULL,
+    c_city char(50) NULL,
+    c_zip char(50) NULL,
+    c_contact char(50) NULL,
+    c_email char(255) NULL
+);
+
+INSERT INTO customers(c_id,c_name,c_address,c_city,c_zip,c_contact,c_email)
+VALUES(10001,'RedHook','200 street','Tianjin','300000','Liming','Liming@163.com'),
+(10002,'Star','333 street','Dalian','116000','Zhangbo','Zhangbo@163.com'),
+(10003,'Netbhood','1 street','Qindao','266000','LuoCong',NULL),
+(10004,'JOTO','829 street','Haikou','570000','Yangshan','sam@hotmail.com');
+
+CREATE TABLE orders(
+	o_num int PRIMARY KEY AUTO_INCREMENT,
+    o_date DATETIME NOT NULL,
+    c_id int NOT NULL
+);
+
+INSERT INTO orders VALUES(30001,'2008-09-01',10001),
+(30002,'2008-09-02',10003),
+(30003,'2008-09-03',10004),
+(30004,'2008-09-04',10005),
+(30005,'2008-09-05',10001);
+
+#左连接:返回包括左表中的所有记录和右表中连接字段相等记录.
+SELECT customers.c_id,orders.o_num FROM customers LEFT OUTER JOIN orders ON customers.c_id = orders.c_id;
+#右连接:返回包括右表中的所有记录和表表中连接字段相等记录.
+SELECT customers.c_id,orders.o_num FROM customers RIGHT OUTER JOIN orders ON customers.c_id = orders.c_id;
