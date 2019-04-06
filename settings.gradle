@@ -13,4 +13,5 @@ include 'KnowledgeOfThread'
 include 'KnowledgeOfUnsafeClass'
 include 'KnowledgeOfLocalDateTime'
 include 'KnowledgeOfJUC'
+include 'KnowledgeOfDataStructuresAndAlgorithms'
 
