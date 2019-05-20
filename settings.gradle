@@ -15,4 +15,5 @@ include 'KnowledgeOfLocalDateTime'
 include 'KnowledgeOfJUC'
 include 'KnowledgeOfDataStructuresAndAlgorithms'
 include 'KnowledgeOfSpringKafka'
+include 'KnowledgeOfJson'
 
