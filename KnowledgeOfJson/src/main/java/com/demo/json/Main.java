@@ -1,12 +1,15 @@
 package com.demo.json;
 
 import com.demo.json.entity.Entity;
+import com.demo.json.entity.LeiTai;
 import com.google.gson.Gson;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author 揭光智
@@ -18,6 +21,11 @@ public class Main extends WebSocketClient {
         //注意注意,并不是每次都能拿到数据的，需要多尝试
         Main client = new Main(new URI("wss://publicld.gwgo.qq.com?account_value=0&account_type=0&appid=0&token=0"));
         client.connect();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(1559556000 * 1000L);
+        System.out.println(System.currentTimeMillis());
+        String time = format.format(date);
+        System.out.println(time);
     }
 
 
@@ -29,9 +37,9 @@ public class Main extends WebSocketClient {
     public void onOpen(ServerHandshake handshakedata) {
 
         Entity entity = new Entity();
-        entity.setRequest_type("1001");
-        entity.setLongtitude(116368561);
-        entity.setLatitude(39954195);
+        entity.setRequest_type("1002");
+        entity.setLongtitude(113324773);
+        entity.setLatitude(23119675);
         entity.setRequestid(requestId());
         entity.setPlatform(0);
         send(covertData(entity));
@@ -52,7 +60,10 @@ public class Main extends WebSocketClient {
     public void onMessage(ByteBuffer message) {
         System.out.println("received ByteBuffer");
 
-        System.out.println(parseData(message.array()));
+//        System.out.println(parseData(message.array()));
+
+        LeiTai leiTai = new Gson().fromJson(parseData(message.array()), LeiTai.class);
+        System.out.println(leiTai);
     }
 
     @Override
