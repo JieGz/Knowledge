@@ -22,7 +22,7 @@ public class Main extends WebSocketClient {
         Main client = new Main(new URI("wss://publicld.gwgo.qq.com?account_value=0&account_type=0&appid=0&token=0"));
         client.connect();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(1559556000 * 1000L);
+        Date date = new Date(1559563200 * 1000L);
         System.out.println(System.currentTimeMillis());
         String time = format.format(date);
         System.out.println(time);
@@ -60,10 +60,10 @@ public class Main extends WebSocketClient {
     public void onMessage(ByteBuffer message) {
         System.out.println("received ByteBuffer");
 
-//        System.out.println(parseData(message.array()));
+        System.out.println(parseData(message.array()));
 
         LeiTai leiTai = new Gson().fromJson(parseData(message.array()), LeiTai.class);
-        System.out.println(leiTai);
+//        System.out.println(leiTai);
     }
 
     @Override

@@ -17,4 +17,5 @@ include 'KnowledgeOfDataStructuresAndAlgorithms'
 include 'KnowledgeOfSpringKafka'
 include 'KnowledgeOfJson'
 include 'KnowledgeOfQueryDsl'
+include 'KnowledgeOfWebSocket'
 
