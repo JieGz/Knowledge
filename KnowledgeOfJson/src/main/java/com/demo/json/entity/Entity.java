@@ -15,6 +15,8 @@ public class Entity {
 
     private Integer platform;
 
+    private Integer cfg_type;
+
     public void setRequest_type(String request_type) {
         this.request_type = request_type;
     }
@@ -35,6 +37,11 @@ public class Entity {
         this.platform = platform;
     }
 
+    public void setCfg_type(Integer cfg_type) {
+        this.cfg_type = cfg_type;
+    }
+
+
     @Override
     public String toString() {
         return "Entity{" +
@@ -43,6 +50,7 @@ public class Entity {
                 ", latitude=" + latitude +
                 ", requestid=" + requestid +
                 ", platform=" + platform +
+                ", cfg_type=" + cfg_type +
                 '}';
     }
 }

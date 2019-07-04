@@ -37,11 +37,12 @@ public class Main extends WebSocketClient {
     public void onOpen(ServerHandshake handshakedata) {
 
         Entity entity = new Entity();
-        entity.setRequest_type("1002");
-        entity.setLongtitude(113324773);
-        entity.setLatitude(23119675);
+        entity.setRequest_type("1004");
+        //entity.setLongtitude(113324773);
+        //entity.setLatitude(23119675);
         entity.setRequestid(requestId());
         entity.setPlatform(0);
+        entity.setCfg_type(1);
         send(covertData(entity));
         System.out.println("new connection opened");
     }
