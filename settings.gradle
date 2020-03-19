@@ -20,4 +20,5 @@ include 'KnowledgeOfQueryDsl'
 include 'KnowledgeOfWebSocket'
 include 'KnowledgeOfMockGps'
 include 'KnowledgeOfParse'
+include 'KnowledgeOfSpringDataJpa'
 
