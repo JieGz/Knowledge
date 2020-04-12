@@ -21,4 +21,5 @@ include 'KnowledgeOfWebSocket'
 include 'KnowledgeOfMockGps'
 include 'KnowledgeOfParse'
 include 'KnowledgeOfSpringDataJpa'
+include 'KnowledgeOfSpringBoot'
 
