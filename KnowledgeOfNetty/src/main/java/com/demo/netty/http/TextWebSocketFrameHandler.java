@@ -42,6 +42,8 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
+        //这里能拿到客户端传过来的消息
+        System.out.println(msg.text());
         //增加消息的引用计数,并将它写到ChannelGroup中的所有已连接的客户端
         group.writeAndFlush(msg.retain());
     }

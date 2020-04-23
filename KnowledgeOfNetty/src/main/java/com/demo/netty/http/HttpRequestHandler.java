@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 揭光智
@@ -42,19 +45,24 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
         //如果请求了WebSocket协议升级,调用retain()方法增加引用计数,并将request传递给下一个ChanelInboundHandler.
         //这里之所有要调用retain()方法,是因为channelRead0()方法完成之后,它将调用FullHttpRequest对象上的release()方法释放资源
         System.out.println(request.uri());
-
-        if (request.uri().contains(wsUrl)) {
-            if (request.uri().contains("?")) {
-                String[] uris = request.uri().split("\\?");
-                request.setUri(uris[0]);
-                System.out.println("token:" + uris[1]);
-                ctx.fireChannelRead(request.retain());
-            } else {
+        String uri = request.uri();
+        int index = uri.indexOf("?");
+        if (index != -1) uri = uri.substring(0, index);
+        if (uri.equalsIgnoreCase(wsUrl)) {
+            QueryStringDecoder decoder = new QueryStringDecoder(request.uri());
+            Map<String, List<String>> parameters = decoder.parameters();
+            List<String> token = parameters.computeIfAbsent("token", v -> new ArrayList<>());
+            if (token.size() == 0) {
                 HttpResponse response = new DefaultHttpResponse(request.protocolVersion(), HttpResponseStatus.FORBIDDEN);
                 response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
                 ctx.write(response);
                 ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
+                return;
             }
+            String tokenStr = token.get(0);
+            System.out.println(tokenStr);
+            request.setUri(uri);
+            ctx.fireChannelRead(request.retain());
         } else {
             //处理100Continue请求,以符合Http1.1规范
             if (HttpUtil.is100ContinueExpected(request)) {
@@ -86,6 +94,7 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
                 future.addListener(ChannelFutureListener.CLOSE);
             }
         }
+
     }
 
     private void send100Continue(ChannelHandlerContext ctx) {
