@@ -16,14 +16,14 @@
             height: 15em;
         }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript">
         function log(msg) {
             var log = $('#log')
             log.append(msg + " \n").scrollTop(log[0].scrollHeight - log.height());
         }
         $(function () {
-            $('#url').val((location.protocol.indexOf('https') == -1 ? 'ws://' : 'wss://') + location.host + '/ws')
+            $('#url').val((location.protocol.indexOf('https') == -1 ? 'ws://' : 'wss://') + location.host + '/ws?token=admin')
 
             if (!WebSocket) {
                 $('#not-supported').show()
@@ -52,11 +52,7 @@
                         $('#send').click(function () {
                             var msg = $('#msg').val()
                             $('#msg').val('')
-                            if (ws.send(msg)) {
-                                log('Message sent')
-                            } else {
-                                log('Message not sent')
-                            }
+                            ws.send(msg)
                         })
 
                     } else {
