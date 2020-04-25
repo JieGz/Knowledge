@@ -1,4 +1,4 @@
-package com.demo.netty.http;
+package com.demo.netty.http.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -33,13 +33,16 @@ public class LukeHttpServer {
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 1024)
+                    .option(ChannelOption.SO_REUSEADDR, true)
                     .localAddress(new InetSocketAddress(port))
                     .childHandler(new LuckServerInitializer(channelGroup));
             //异步地绑定服务器，调用sync()方法阻塞等待，直到绑定完成
             ChannelFuture channelFuture = bootstrap.bind().sync();
+            if (channelFuture.isSuccess()) {
+                System.out.println("Netty服务器启动成功...");
+            }
             //获取ChannelFuture的CloseFuture，并且阻塞当前线程直到它完成
             channelFuture.channel().closeFuture().sync();
-
         } finally {
             channelGroup.close();
             workerGroup.shutdownGracefully().sync();

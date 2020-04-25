@@ -1,5 +1,7 @@
-package com.demo.netty.http;
+package com.demo.netty.http.server;
 
+import com.demo.netty.http.common.RemotingHelper;
+import com.demo.netty.http.common.RemotingUtil;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.ssl.SslHandler;
@@ -41,6 +43,12 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
     }
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        String remoteAddr = RemotingHelper.parseChannelRemoteAddr(ctx.channel());
+        System.out.println(remoteAddr);
+    }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         //如果请求了WebSocket协议升级,调用retain()方法增加引用计数,并将request传递给下一个ChanelInboundHandler.
         //这里之所有要调用retain()方法,是因为channelRead0()方法完成之后,它将调用FullHttpRequest对象上的release()方法释放资源
@@ -76,8 +84,7 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
             boolean keepAlive = HttpUtil.isKeepAlive(request);
             if (keepAlive) {
                 response.headers().set(HttpHeaderNames.CONTENT_LENGTH, file.length());
-                // response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
-                response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+                response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
             }
             //请HttpResponse写到客户端
             ctx.write(response);
@@ -105,6 +112,7 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
+        RemotingUtil.closeChannel(ctx.channel());
         ctx.close();
     }
 }

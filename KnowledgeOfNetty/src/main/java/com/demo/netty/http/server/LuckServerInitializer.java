@@ -1,5 +1,6 @@
-package com.demo.netty.http;
+package com.demo.netty.http.server;
 
+import com.demo.netty.http.constance.Constance;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -8,6 +9,9 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 揭光智
@@ -23,6 +27,10 @@ public class LuckServerInitializer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
+        //空闲链路检测机制
+        pipeline.addLast(new IdleStateHandler(Constance.READER_IDLE_TIME, Constance.WRITER_IDLE_TIME, Constance.ALL_IDLE_TIME, TimeUnit.SECONDS));
+        //自定义心跳机制ping-ping型心跳或者是ping-pong型心跳
+        pipeline.addLast(new HeartBeatHandler());
         pipeline.addLast(new HttpServerCodec());
         //主要支持异步的流码(大文件传输)
         pipeline.addLast(new ChunkedWriteHandler());

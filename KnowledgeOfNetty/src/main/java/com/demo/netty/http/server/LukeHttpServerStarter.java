@@ -1,4 +1,4 @@
-package com.demo.netty.http;
+package com.demo.netty.http.server;
 
 /**
  * @author 揭光智
