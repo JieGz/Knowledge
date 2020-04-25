@@ -37,8 +37,17 @@ public class HeartBeatHandler extends ChannelDuplexHandler {
     }
 
     @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        if (msg instanceof ByteBuf) {
+            ByteBuf buf = (ByteBuf) msg;
+            System.out.println("服务端收到客记端的消息：" + buf.toString(CharsetUtil.UTF_8));
+        }
+        super.channelRead(ctx, msg);
+    }
+
+    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
         System.out.println("channelInactive:" + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));
+        super.channelInactive(ctx);
     }
 }
