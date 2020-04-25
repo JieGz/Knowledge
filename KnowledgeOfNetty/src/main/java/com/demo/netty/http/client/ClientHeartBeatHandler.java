@@ -32,4 +32,18 @@ public class ClientHeartBeatHandler extends ChannelDuplexHandler {
             }
         }
     }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        //如果运行过程中服务端挂了,执行重连机制
+        System.out.println("channelInactive");
+        ConnectUtil.reconnect(ctx.channel());
+        super.channelInactive(ctx);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("exceptionCaught" + cause.getMessage());
+        ctx.channel().close();
+    }
 }

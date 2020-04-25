@@ -1,16 +1,15 @@
 package com.demo.netty.http.client;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,12 +20,13 @@ public class LukeHttpClient {
     private final String host;
     private final int port;
 
+
     public LukeHttpClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
 
-    public void start() throws Exception {
+    public void start() {
         //创建一个线程组
         EventLoopGroup group = new NioEventLoopGroup(1);
         try {
@@ -48,16 +48,27 @@ public class LukeHttpClient {
                             ch.pipeline().addLast(new ClientHandler());
                         }
                     });
-            ChannelFuture channelFuture = b.connect().sync();
+            ChannelFuture channelFuture = b.connect();
+            channelFuture.addListener((ChannelFutureListener) future -> {
+                if (future.isSuccess()) {
+                    System.out.println("连接Netty服务器成功");
+                } else {
+                    System.out.println(LocalDateTime.now().format(
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + ":连接服务器失败,开始尝试重连");
+                    ConnectUtil.connect(future.channel());
+                }
+            });
             //获取ChannelFuture的CloseFuture，并且阻塞当前线程直到它完成
-            channelFuture.channel().closeFuture().sync();
+            // channelFuture.channel().closeFuture().syncUninterruptibly();
         } finally {
             //关闭EventLoopGroup释放所有的资源
-            group.shutdownGracefully().sync();
+            //  group.shutdownGracefully().syncUninterruptibly();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new LukeHttpClient("127.0.0.1", 8080).start();
+        LukeHttpClient client = new LukeHttpClient("127.0.0.1", 8080);
+        ConnectUtil.initClient(client);
+        client.start();
     }
 }
