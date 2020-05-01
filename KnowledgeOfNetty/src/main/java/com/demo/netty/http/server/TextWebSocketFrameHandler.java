@@ -3,14 +3,16 @@ package com.demo.netty.http.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.util.CharsetUtil;
 
 /**
  * @author 揭光智
  * @date 2020/04/23
  */
-public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<Object> {
 
     private final ChannelGroup group;
 
@@ -41,11 +43,20 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-        //这里能拿到客户端传过来的消息
-        System.out.println(msg.text());
-        //增加消息的引用计数,并将它写到ChannelGroup中的所有已连接的客户端
-        group.writeAndFlush(msg.retain());
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("66666666666666666666666666666666");
+
+        if (msg instanceof TextWebSocketFrame) {
+            TextWebSocketFrame text = (TextWebSocketFrame) msg;
+            //这里能拿到客户端传过来的消息
+            System.out.println(text.text());
+            //增加消息的引用计数,并将它写到ChannelGroup中的所有已连接的客户端
+            group.writeAndFlush(text.retain());
+        } else if (msg instanceof PingWebSocketFrame) {
+            PingWebSocketFrame ping = (PingWebSocketFrame) msg;
+            System.out.println(ping.content().toString(CharsetUtil.UTF_8));
+        }
+
     }
 
 }

@@ -2,10 +2,12 @@ package com.demo.netty.http.server;
 
 import com.demo.netty.http.common.RemotingHelper;
 import com.demo.netty.http.constance.Constance;
+import com.demo.netty.http.util.Connector;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.CharsetUtil;
@@ -27,7 +29,8 @@ public class HeartBeatHandler extends ChannelDuplexHandler {
                 System.out.println(Constance.READER_IDLE_TIME + "秒没有入站消息了:=========>可能已经断开链接了" + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));
             } else if (event.state() == IdleState.WRITER_IDLE) {
                 System.out.println(Constance.WRITER_IDLE_TIME + "秒没有出站消息了,发送一个心跳" + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));
-                ctx.writeAndFlush(HEART_BEAT);
+                //如果这里不使用ctx.channel(),消息发送不出去
+                ctx.channel().writeAndFlush(new PingWebSocketFrame());
             } else if (event.state() == IdleState.ALL_IDLE) {
                 System.out.println(Constance.ALL_IDLE_TIME + "秒没有出-入站消息了,============>基本铁定已经断开连接了" + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));
             }
@@ -38,15 +41,16 @@ public class HeartBeatHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if (msg instanceof ByteBuf) {
-            ByteBuf buf = (ByteBuf) msg;
-            System.out.println("服务端收到客记端的消息：" + buf.toString(CharsetUtil.UTF_8));
+        String account = Connector.getConnectPool().get(ctx.channel());
+        if (account != null) {
+            System.out.println("收到了" + account + "的消息,connect pool size:" + Connector.getConnectPool().size());
         }
-        super.channelRead(ctx, msg);
+        ctx.fireChannelRead(msg);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        Connector.getConnectPool().remove(ctx.channel());
         System.out.println("channelInactive:" + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));
         super.channelInactive(ctx);
     }

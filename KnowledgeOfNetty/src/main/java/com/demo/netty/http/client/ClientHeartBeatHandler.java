@@ -3,8 +3,8 @@ package com.demo.netty.http.client;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelDuplexHandler;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.CharsetUtil;
@@ -22,13 +22,7 @@ public class ClientHeartBeatHandler extends ChannelDuplexHandler {
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
             if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
                 System.out.println("已经10秒钟没有出站消息了,发出一个心跳消息");
-                ctx.writeAndFlush(HEART_BEAT).addListener((ChannelFutureListener) future -> {
-                            if (!future.isSuccess()) {
-                                System.out.println("client close");
-                                future.channel().close();
-                            }
-                        }
-                );
+                ctx.channel().writeAndFlush(new PingWebSocketFrame());
             }
         }
     }
