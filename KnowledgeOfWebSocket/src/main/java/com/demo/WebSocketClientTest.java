@@ -49,7 +49,7 @@ public class WebSocketClientTest extends WebSocketClient {
     }
 
     public static void main(String[] args) throws URISyntaxException {
-        WebSocketClient client = new WebSocketClientTest(new URI("ws://localhost:11111?token=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJhcHAtaXQtYnJhaW4taG9sZCIsImlhdCI6MTU2MTA5NzA3NSwiYXVkIjoiMTM1NzA1Nzg0MTciLCJzdWIiOiJ7XCJhdXRob3JpemF0aW9uc1wiOltcIlJPTEVfVVNFUlwiLFwiUk9MRV9BRE1JTlwiXX0ifQ.Nc5txM5a9Vsdb4Z2mxupajM03alNp2hoHeH51k4Fxjl1nv-ag8jtVCfiYPdvTgLOV2RxHPQtBkiftWaYLH9n-g"));
+        WebSocketClient client = new WebSocketClientTest(new URI("ws://localhost:8080/ws?token=JavaWebSocket"));
         client.connect();
     }
 }

@@ -22,8 +22,9 @@
             var log = $('#log')
             log.append(msg + " \n").scrollTop(log[0].scrollHeight - log.height());
         }
+
         $(function () {
-            $('#url').val((location.protocol.indexOf('https') == -1 ? 'ws://' : 'wss://') + location.host + '/ws?token=admin')
+            $('#url').val((location.protocol.indexOf('https') == -1 ? 'ws://' : 'wss://') + "127.0.0.1:8080" + '/ws?token=html')
 
             if (!WebSocket) {
                 $('#not-supported').show()
