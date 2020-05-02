@@ -1,5 +1,6 @@
 package com.demo;
 
+import org.java_websocket.WebSocketImpl;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
@@ -49,6 +50,7 @@ public class WebSocketClientTest extends WebSocketClient {
     }
 
     public static void main(String[] args) throws URISyntaxException {
+        WebSocketImpl.DEBUG = true;
         WebSocketClient client = new WebSocketClientTest(new URI("ws://localhost:8080/ws?token=JavaWebSocket"));
         client.connect();
     }

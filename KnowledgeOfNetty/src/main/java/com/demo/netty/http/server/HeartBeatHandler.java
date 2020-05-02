@@ -11,6 +11,7 @@ import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 如果你的ChannelHandler需要拦截操作或者状态更新,那么这是一个很好的起点{@link ChannelDuplexHandler}
@@ -18,6 +19,7 @@ import io.netty.util.CharsetUtil;
  * @author 揭光智
  * @date 2020/04/24
  */
+@Slf4j
 public class HeartBeatHandler extends ChannelDuplexHandler {
     private static final ByteBuf HEART_BEAT = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("ping".getBytes(CharsetUtil.UTF_8)));
 
@@ -43,7 +45,7 @@ public class HeartBeatHandler extends ChannelDuplexHandler {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String account = Connector.getConnectPool().get(ctx.channel());
         if (account != null) {
-            System.out.println("收到了" + account + "的消息,connect pool size:" + Connector.getConnectPool().size());
+            log.info("收到了{}的消息,当前连接数为{}", account, Connector.getConnectPool().size());
         }
         ctx.fireChannelRead(msg);
     }

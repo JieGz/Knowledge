@@ -54,7 +54,7 @@ public class LukeHttpClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new IdleStateHandler(0, 10, 30, TimeUnit.SECONDS));
+                            ch.pipeline().addLast(new IdleStateHandler(90, 60, 0, TimeUnit.SECONDS));
                             ch.pipeline().addLast(new ClientHeartBeatHandler());
                             ch.pipeline().addLast(new HttpClientCodec());
                             ch.pipeline().addLast(new HttpObjectAggregator(8192));
@@ -62,8 +62,7 @@ public class LukeHttpClient {
                             ch.pipeline().addLast(handler);
                         }
                     });
-            ChannelFuture channelFuture = b.connect().sync();
-            handler.handshakeFuture().sync();
+            ChannelFuture channelFuture = b.connect();
             channelFuture.addListener((ChannelFutureListener) future -> {
                 if (future.isSuccess()) {
                     System.out.println("连接Netty服务器成功");

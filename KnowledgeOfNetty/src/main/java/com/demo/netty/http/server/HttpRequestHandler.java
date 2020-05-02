@@ -1,5 +1,6 @@
 package com.demo.netty.http.server;
 
+import com.demo.netty.http.common.ConnectParse;
 import com.demo.netty.http.common.RemotingUtil;
 import com.demo.netty.http.util.Connector;
 import io.netty.buffer.ByteBufUtil;
@@ -8,11 +9,13 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author 揭光智
  * @date 2020/04/23
  */
+@Slf4j
 public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     private final String websocketUrl;
@@ -25,8 +28,8 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         System.out.println("uri:" + request.uri());
         String account;
-        if (request.uri().contains(websocketUrl) && (account = "admin") != null) {
-            System.out.println("解析出用户的帐号为" + account);
+        if (request.uri().contains(websocketUrl) && (account = ConnectParse.parse(request.uri())) != null) {
+            log.info("解析出用户的帐号为{}", account);
             Connector.getConnectPool().put(ctx.channel(), account);
             String uri = request.uri();
             uri = uri.substring(0, uri.indexOf("?"));

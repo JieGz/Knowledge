@@ -7,11 +7,11 @@ package com.demo.netty.http.constance;
 public class Constance {
 
     /** 入站消息空闲时间,会触发空闲回调 */
-    public static final long READER_IDLE_TIME = 20;
+    public static final long READER_IDLE_TIME = 90;
 
     /** 出站消息空闲时间,会触发空闲回调 */
-    public static final long WRITER_IDLE_TIME = 20;
+    public static final long WRITER_IDLE_TIME = 0;
 
     /** 出入站消息空时间,会触发空闲回调 */
-    public static final long ALL_IDLE_TIME = 30;
+    public static final long ALL_IDLE_TIME = 0;
 }
