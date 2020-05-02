@@ -3,14 +3,11 @@ package com.demo.netty.http.server;
 import com.demo.netty.http.common.RemotingHelper;
 import com.demo.netty.http.constance.Constance;
 import com.demo.netty.http.util.Connector;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class HeartBeatHandler extends ChannelDuplexHandler {
-    private static final ByteBuf HEART_BEAT = Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("ping".getBytes(CharsetUtil.UTF_8)));
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
