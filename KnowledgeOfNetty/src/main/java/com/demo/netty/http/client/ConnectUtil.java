@@ -21,7 +21,7 @@ public class ConnectUtil {
     }
 
     public static void connect(Channel channel) {
-        channel.eventLoop().schedule(() -> getClient().start(), 3L, TimeUnit.SECONDS);
+        channel.eventLoop().schedule(() -> getClient().start(), 8L, TimeUnit.SECONDS);
     }
 
     public static void reconnect(Channel channel) {
