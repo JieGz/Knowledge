@@ -7,6 +7,6 @@ package com.demo.netty.http.server;
 public class LukeHttpServerStarter {
 
     public static void main(String[] args) throws Exception {
-        new LukeHttpServer(8080).start();
+        new LukeHttpServer(9090).start();
     }
 }

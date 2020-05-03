@@ -28,7 +28,7 @@ public class HeartBeatHandler extends ChannelDuplexHandler {
             } else if (event.state() == IdleState.WRITER_IDLE) {
                 System.out.println(Constance.WRITER_IDLE_TIME + "秒没有出站消息了,发送一个心跳" + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));
                 //如果这里不使用ctx.channel(),消息发送不出去
-                ctx.channel().writeAndFlush(new PingWebSocketFrame());
+               // ctx.channel().writeAndFlush(new PingWebSocketFrame());
             } else if (event.state() == IdleState.ALL_IDLE) {
                 System.out.println(Constance.ALL_IDLE_TIME + "秒没有出-入站消息了,============>基本铁定已经断开连接了" + RemotingHelper.parseChannelRemoteAddr(ctx.channel()));
             }

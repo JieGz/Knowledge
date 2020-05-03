@@ -37,7 +37,7 @@ public class LukeHttpClient {
         //创建一个线程组
         EventLoopGroup group = new NioEventLoopGroup(1);
         try {
-            URI uri = new URI("ws://127.0.0.1:8080/ws?token=netty");
+            URI uri = new URI("ws://127.0.0.1:8888/ws?token=admin");
             final ClientHandler handler = new ClientHandler(WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null
                     , true, new DefaultHttpHeaders()));
 

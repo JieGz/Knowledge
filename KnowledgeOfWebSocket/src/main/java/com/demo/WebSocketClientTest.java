@@ -51,7 +51,7 @@ public class WebSocketClientTest extends WebSocketClient {
 
     public static void main(String[] args) throws URISyntaxException {
         WebSocketImpl.DEBUG = true;
-        WebSocketClient client = new WebSocketClientTest(new URI("ws://localhost:8080/ws?token=JavaWebSocket"));
+        WebSocketClient client = new WebSocketClientTest(new URI("ws://127.0.0.1:8888/ws?token=admin"));
         client.connect();
     }
 }

@@ -65,6 +65,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Object> {
                 System.out.println("WebSocket Client connected!");
                 handshakeFuture.setSuccess();
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("WebSocket Client failed to connect");
                 handshakeFuture.setFailure(e);
             }
