@@ -51,7 +51,7 @@ public class WebSocketClientTest extends WebSocketClient {
 
     public static void main(String[] args) throws URISyntaxException {
         WebSocketImpl.DEBUG = true;
-        WebSocketClient client = new WebSocketClientTest(new URI("ws://127.0.0.1:8888/ws?token=admin"));
+        WebSocketClient client = new WebSocketClientTest(new URI("ws://127.0.0.1:8888/ws?token=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJhcHAtaXQtYnJhaW4taG9sZCIsImlhdCI6MTU4ODY0ODczMiwiYXVkIjoibGl1cWlhbmciLCJzdWIiOiJ7XCJhY2NvdW50XCI6XCJsaXVxaWFuZ1wiLFwiYXV0aG9yaXphdGlvbnNcIjpbXCJST0xFX1NZU1RFTVwiLFwiUk9MRV9VU0VSX01BTkFHRVJcIixcIlJPTEVfQUNDT1VOVF9JTkZPXCIsXCJST0xFX1RBU0tfQ0hBSU5cIixcIlJPTEVfRlVOQ1RJT05cIixcIlJPTEVfQ0hBVF9DT05URU5UXCIsXCJST0xFX1BIT05FX0lORk9cIixcIlJPTEVfQURNSU5cIl19IiwiZXhwIjoxNTkwMTE5OTYwfQ.2b8yLapSS1GvNTV45dN5WB0xYihBetjYYt4uFd4ymxD-54O-NBJBocDwE_qop6ZIjY0ik64oxqlMSAZznDg_ZA"));
         client.connect();
     }
 }

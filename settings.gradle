@@ -23,4 +23,5 @@ include 'KnowledgeOfParse'
 include 'KnowledgeOfSpringDataJpa'
 include 'KnowledgeOfSpringBoot'
 include 'KnowledgeOfLog'
+include 'KonwledgeOfGuava'
 

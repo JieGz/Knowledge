@@ -11,8 +11,8 @@ import java.util.*;
  */
 public class Main {
 
-    private final static int EACH_ROW_COUNT = 8;
-    private final static int TOTAL_ROW = 20;
+    private final static int EACH_ROW_COUNT = 10;
+    private final static int TOTAL_ROW = 30;
     private static Set<String> sentenceSet = new HashSet<>(EACH_ROW_COUNT * TOTAL_ROW);
     private static List<String> sentenceList = new ArrayList<>(TOTAL_ROW);
 
@@ -84,7 +84,7 @@ public class Main {
 
     private static String faceThird(String sentence, String[] faceArr) {
         Random random = new Random();
-        int faceIndex = random.nextInt(5) + 1;
+        int faceIndex = random.nextInt(3) + 1;
         StringBuilder sentenceBuilder = new StringBuilder(sentence);
         for (int i = 0; i < faceIndex; ++i) {
             sentenceBuilder.append(faceArr[random.nextInt(faceArr.length)]);
