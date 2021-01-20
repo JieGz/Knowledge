@@ -28,4 +28,5 @@ include 'KnowledgeOfJVM'
 include 'KnowledgeOfJMH'
 include 'KnowledgeOfExcel'
 include 'KnowledgeOfApacheCommonsLang3'
+include 'KnowledgeOfJDBC'
 
