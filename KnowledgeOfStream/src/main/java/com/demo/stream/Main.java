@@ -3,6 +3,8 @@ package com.demo.stream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author 揭光智
@@ -13,6 +15,8 @@ public class Main {
     public static void main(String[] args) {
         learnStream();
         reduce3th();
+
+        collectEle();
     }
 
 
@@ -55,6 +59,13 @@ public class Main {
                 (a, b) -> a * b * 2);
         //48
         System.out.println("reduce3th:" + product);
+    }
 
+    /**
+     * 将多个元素,收集成一个{@link List}
+     */
+    private static void collectEle() {
+        List<String> list = Stream.of("a", "b", "c").collect(Collectors.toList());
+        System.out.println(list);
     }
 }
