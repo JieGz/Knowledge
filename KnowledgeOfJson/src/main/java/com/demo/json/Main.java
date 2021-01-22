@@ -1,10 +1,9 @@
 package com.demo.json;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author 揭光智
@@ -25,6 +24,14 @@ public class Main {
 
         System.out.println(new BigDecimal(8).divide(new BigDecimal(2), 4, BigDecimal.ROUND_HALF_UP).subtract(new BigDecimal(1)).toString());
 
+        User user = User.builder().name("luke").age("18").build();
+        ObjectMapper mapper = new ObjectMapper();
+
+        String json = mapper.writeValueAsString(user);
+        System.out.println(json);
+
+        User user1 = mapper.readValue(json, User.class);
+        System.out.println(user1);
     }
 
 }
