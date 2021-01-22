@@ -1,9 +1,14 @@
 package com.demo.json;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author 揭光智
@@ -32,6 +37,23 @@ public class Main {
 
         User user1 = mapper.readValue(json, User.class);
         System.out.println(user1);
+
+        json();
     }
 
+    private static void json() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<User> list = Stream.of(User.builder().name("a").age("10").build(),
+                    User.builder().name("b").age("11").build(),
+                    User.builder().name("c").age("12").build()).collect(Collectors.toList());
+            String json = objectMapper.writeValueAsString(list);
+            System.out.println(json);
+            List<User> users = objectMapper.readValue(json, new TypeReference<List<User>>() {
+            });
+            System.out.println(users);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 }
