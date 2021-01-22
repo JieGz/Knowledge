@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -34,7 +35,10 @@ public class Main {
 
         String json = mapper.writeValueAsString(user);
         System.out.println(json);
+        Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {
+        });
 
+        System.out.println(map);
         User user1 = mapper.readValue(json, User.class);
         System.out.println(user1);
 
@@ -52,6 +56,8 @@ public class Main {
             List<User> users = objectMapper.readValue(json, new TypeReference<List<User>>() {
             });
             System.out.println(users);
+
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
