@@ -19,6 +19,7 @@ public class Main {
         groupBY();
         groupBY2Set();
         multipleGroupingBy();
+        groupingByAndJoining();
     }
 
 
@@ -73,29 +74,34 @@ public class Main {
 
 
     private static void groupBY() {
-        Set<ClassMate> mates = Stream.of(ClassMate.builder().grade("三级年二班").name("小明").sex("男").build(),
-                ClassMate.builder().grade("四级年三班").name("小强").sex("男").build(),
-                ClassMate.builder().grade("三级年二班").name("小美").sex("女").build(),
-                ClassMate.builder().grade("四级年三班").name("小花").sex("女").build()).collect(Collectors.toSet());
+        Set<ClassMate> mates = getMates();
         Map<String, List<ClassMate>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade));
         System.out.println(map);
     }
 
     private static void groupBY2Set() {
-        Set<ClassMate> mates = Stream.of(ClassMate.builder().grade("三级年二班").name("小明").sex("男").build(),
-                ClassMate.builder().grade("四级年三班").name("小强").sex("男").build(),
-                ClassMate.builder().grade("三级年二班").name("小美").sex("女").build(),
-                ClassMate.builder().grade("四级年三班").name("小花").sex("女").build()).collect(Collectors.toSet());
+        Set<ClassMate> mates = getMates();
         Map<String, Set<ClassMate>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade,Collectors.toSet()));
         System.out.println(map);
     }
 
     private static void multipleGroupingBy() {
-        Set<ClassMate> mates = Stream.of(ClassMate.builder().grade("三级年").clazz("二班").name("小明").sex("男").build(),
+        Set<ClassMate> mates = getMates();
+        Map<String, Map<String, List<ClassMate>>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade, Collectors.groupingBy(ClassMate::clazz)));
+        System.out.println(map);
+    }
+
+
+    private static void groupingByAndJoining() {
+        Set<ClassMate> mates = getMates();
+        Map<String, Map<String, String>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade, Collectors.groupingBy(ClassMate::clazz, Collectors.mapping(ClassMate::name, Collectors.joining("-")))));
+        System.out.println(map);
+    }
+
+    private static Set<ClassMate> getMates() {
+        return Stream.of(ClassMate.builder().grade("三级年").clazz("二班").name("小明").sex("男").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小强").sex("男").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小美").sex("女").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小花").sex("女").build()).collect(Collectors.toSet());
-        Map<String, Map<String, List<ClassMate>>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade, Collectors.groupingBy(ClassMate::clazz)));
-        System.out.println(map);
     }
 }
