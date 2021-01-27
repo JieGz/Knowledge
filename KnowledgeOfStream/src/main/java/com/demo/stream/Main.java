@@ -1,8 +1,6 @@
 package com.demo.stream;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,6 +15,8 @@ public class Main {
         reduce3th();
 
         collectEle();
+
+        groupBY();
     }
 
 
@@ -67,5 +67,15 @@ public class Main {
     private static void collectEle() {
         List<String> list = Stream.of("a", "b", "c").collect(Collectors.toList());
         System.out.println(list);
+    }
+
+
+    private static void groupBY() {
+        Set<ClassMate> mates = Stream.of(ClassMate.builder().grade("三级年二班").name("小明").sex("男").build(),
+                ClassMate.builder().grade("四级年三班").name("小强").sex("男").build(),
+                ClassMate.builder().grade("三级年二班").name("小美").sex("女").build(),
+                ClassMate.builder().grade("四级年三班").name("小花").sex("女").build()).collect(Collectors.toSet());
+        Map<String, List<ClassMate>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade));
+        System.out.println(map);
     }
 }
