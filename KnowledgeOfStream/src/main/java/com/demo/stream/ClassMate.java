@@ -12,8 +12,11 @@ import lombok.experimental.Accessors;
 @Builder
 @Accessors(fluent = true, chain = true)
 public class ClassMate {
-    /** 班级 */
+    /** 年级 */
     private String grade;
+
+    /** 班级 */
+    private String clazz;
 
     /** 名字 */
     private String name;
