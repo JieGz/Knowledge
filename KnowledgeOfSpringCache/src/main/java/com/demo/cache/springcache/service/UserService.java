@@ -2,9 +2,11 @@ package com.demo.cache.springcache.service;
 
 import com.demo.cache.entity.User;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,6 +41,22 @@ public class UserService {
             e.printStackTrace();
         }
         return new User(userId);
+    }
+
+
+    /**
+     * 用于更新缓存的
+     * CachePut和Cacheable不一样的地方是,CachePut不会在执行前检查缓存中是否存在之前执行的结果,而是每次都会执行方法,并把返回结果以键值对的方式
+     * 存入指定缓存当中,变现相当于更新缓存.[当是需要注意的是,这个方法不应该经常被调用,不然就失去了缓存的效果了]
+     * 那么项目中,应该可以使用这种方法替换清除缓存的效果.
+     * @param userId 用户id
+     * @return
+     */
+    @CachePut(cacheNames = "users", key = "#userId")
+    public User updateCache(String userId) {
+        User user = new User(userId);
+        user.setUserName(LocalDateTime.now().toString());
+        return user;
     }
 
 
