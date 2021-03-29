@@ -1,7 +1,11 @@
 package com.demo.localdatatime;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * @author 揭光智
@@ -16,9 +20,21 @@ public class TestLocalDateTime {
 
 
         //格式化时间
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String startTime = LocalDateTime.now().format(formatter);
-        System.out.println(startTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+       // String startTime = LocalDateTime.now().format(formatter);
+        //System.out.println(startTime);
+        LocalDateTime st = LocalDateTime.of(LocalDate.parse("2021-03-11"), LocalTime.MIN);
+        LocalDateTime et = LocalDateTime.of(LocalDate.parse("2021-03-13"), LocalTime.MIN);
+       st = st.plusDays(1);
 
+        Duration duration = Duration.between(st, et);
+        long days = duration.toDays();
+        System.out.println(days);
+
+        String format = st.format(formatter);
+        Object dt = "2021-03-12";
+        if (Objects.equals(format, dt)) {
+            System.out.println("时间对上了");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.demo.stream;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,6 +21,10 @@ public class Main {
         groupBY2Set();
         multipleGroupingBy();
         groupingByAndJoining();
+        groupingByCustomer();
+        System.out.println("----2021-03-29----");
+        selectCourseType();
+        functionInterface();
     }
 
 
@@ -81,7 +86,7 @@ public class Main {
 
     private static void groupBY2Set() {
         Set<ClassMate> mates = getMates();
-        Map<String, Set<ClassMate>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade,Collectors.toSet()));
+        Map<String, Set<ClassMate>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade, Collectors.toSet()));
         System.out.println(map);
     }
 
@@ -98,10 +103,73 @@ public class Main {
         System.out.println(map);
     }
 
+    private static void groupingByCustomer() {
+        Set<ClassMate> mates = getMates();
+        Map<String, Set<String>> map = mates.stream().collect(Collectors.groupingBy(ClassMate::grade, Collectors.mapping(ClassMate::name, Collectors.toSet())));
+        System.out.println(map);
+    }
+
+    private static void selectCourseType() {
+        Set<Student> students = getStudent();
+        students.stream().map(Student::getCourse).flatMap(Collection::stream).collect(Collectors.toSet()).forEach(System.out::println);
+        System.out.println();
+        //Function<Student, List<String>> course = student -> student.getCourse();
+        Function<Student, List<String>> course = Student::getCourse;
+        students.stream().map(course).collect(Collectors.toSet()).forEach(System.out::println);
+        //output:
+        //[history, math, geography]
+        //[biology, science, english]
+        //[economics, chinese, math]
+
+        System.out.println();
+        students.stream().flatMap(student -> student.getCourse().stream()).collect(Collectors.toSet()).forEach(System.out::println);
+
+    }
+
+    private static void functionInterface() {
+        Set<Student> students = getStudent();
+        //Luke-VIP-SSP-No.1
+        Function<Student, String> sspUser = student -> student.getName() + "-SSP";
+        Function<String, Student> before = name -> new Student(name + "-VIP", "五年级", Arrays.asList("math", "science"));
+        Function<String, String> after = name -> name + "-No.1";
+        String name = sspUser.compose(before).andThen(after).apply("Luke");
+        //Output:
+        //Luke-VIP-SSP-No.1
+
+        //Map<String, Student> map = students.stream().collect(Collectors.toMap(Student::getName, Function.identity()));
+        //System.out.println(map);
+
+
+        //Student xiaoQiang = Student.builder().name("小强").grade("三年级").course(Arrays.asList("economics", "chinese", "math")).build();
+        //Student xiaoHao = Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build();
+        //现在有要求,小智的年级和小强的一样,但是上的课程和小豪一样
+        Function<String, Student> nameToStudent = userName -> Student.builder().name(userName).build();
+        Function<Student, Student> gradeFunction = student -> {
+            student.setGrade("三年级");
+            return student;
+        };
+        Function<Student, Student> courseFunction = student -> {
+            student.setCourse(Arrays.asList("economics", "chinese", "math"));
+            return student;
+        };
+        Student student = gradeFunction.compose(nameToStudent).andThen(courseFunction).apply("Luke");
+        System.out.println(student);
+
+    }
+
     private static Set<ClassMate> getMates() {
         return Stream.of(ClassMate.builder().grade("三级年").clazz("二班").name("小明").sex("男").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小强").sex("男").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小美").sex("女").build(),
+                ClassMate.builder().grade("四级年").clazz("二班").name("小美").sex("女").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小花").sex("女").build()).collect(Collectors.toSet());
+    }
+
+    private static Set<Student> getStudent() {
+        return Stream.of(
+                Student.builder().name("小美").grade("三年级").course(Arrays.asList("history", "math", "geography")).build(),
+                Student.builder().name("小强").grade("三年级").course(Arrays.asList("economics", "chinese", "math")).build(),
+                Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build()
+        ).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }
