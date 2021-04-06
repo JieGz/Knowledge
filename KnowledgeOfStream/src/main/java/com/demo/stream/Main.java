@@ -2,6 +2,7 @@ package com.demo.stream;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +26,7 @@ public class Main {
         System.out.println("----2021-03-29----");
         selectCourseType();
         functionInterface();
+        predicateInterface();
     }
 
 
@@ -155,6 +157,12 @@ public class Main {
         Student student = gradeFunction.compose(nameToStudent).andThen(courseFunction).apply("Luke");
         System.out.println(student);
 
+    }
+
+    private static void predicateInterface() {
+        Set<Student> students = getStudent();
+        Predicate<Student> namePredicate = student -> Objects.equals(student.getName(), "小强");
+        students.stream().filter(namePredicate).collect(Collectors.toSet()).forEach(System.out::println);
     }
 
     private static Set<ClassMate> getMates() {
