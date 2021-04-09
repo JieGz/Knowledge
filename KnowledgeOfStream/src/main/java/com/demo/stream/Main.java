@@ -27,6 +27,8 @@ public class Main {
         selectCourseType();
         functionInterface();
         predicateInterface();
+
+        testA();
     }
 
 
@@ -179,5 +181,9 @@ public class Main {
                 Student.builder().name("小强").grade("三年级").course(Arrays.asList("economics", "chinese", "math")).build(),
                 Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build()
         ).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static void  testA() {
+        System.out.println("这个不用Cherry-Pick");
     }
 }
