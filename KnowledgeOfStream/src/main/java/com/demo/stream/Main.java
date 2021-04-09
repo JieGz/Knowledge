@@ -1,6 +1,14 @@
 package com.demo.stream;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -29,6 +37,7 @@ public class Main {
         predicateInterface();
 
         testA();
+        testB();
     }
 
 
@@ -183,7 +192,11 @@ public class Main {
         ).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    private static void  testA() {
+    private static void testA() {
         System.out.println("这个不用Cherry-Pick");
+    }
+
+    private static void testB() {
+        System.out.println("这个要Cherry-Pick");
     }
 }
