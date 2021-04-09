@@ -39,6 +39,7 @@ public class Main {
         testA();
         testB();
         testC();
+        testD();
     }
 
 
@@ -203,5 +204,9 @@ public class Main {
 
     private static void testC() {
         System.out.println("这个不用Cherry-Pick");
+    }
+
+    private static void testD() {
+        System.out.println("这个要Cherry-Pick--->D");
     }
 }
