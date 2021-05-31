@@ -30,4 +30,5 @@ include 'KnowledgeOfExcel'
 include 'KnowledgeOfApacheCommonsLang3'
 include 'KnowledgeOfJDBC'
 include 'KnowledgeOfRegularExpression'
+include 'KnowledgeOfReactor'
 
