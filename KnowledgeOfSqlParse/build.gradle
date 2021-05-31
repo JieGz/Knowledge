@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'com.demo'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation 'org.apache.shardingsphere:shardingsphere-sql-parser-engine:5.0.0-alpha'
+    implementation 'org.apache.shardingsphere:shardingsphere-sql-parser-mysql:5.0.0-alpha'
+}
+
+test {
+    useJUnitPlatform()
+}

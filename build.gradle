@@ -32,8 +32,5 @@ subprojects {
         testAnnotationProcessor("org.projectlombok:lombok:1.18.12")
 
         implementation("com.google.guava:guava:29.0-jre")
-
-        // import BOM
-        implementation platform('io.projectreactor:reactor-bom:2020.0.6')
     }
 }
