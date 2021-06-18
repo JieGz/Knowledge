@@ -1,0 +1,98 @@
+package com.demo.thread.future.task;
+
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+/**
+ * @author jieguangzhi
+ * @date 2021-06-04
+ */
+@Slf4j
+public class ObjectLock {
+
+    private static ThreadPoolExecutor instanceQueueConsumerThreadPool = new ThreadPoolExecutor(16, 16, 3L, TimeUnit.MINUTES,
+            new SynchronousQueue<>(), new ThreadFactoryBuilder().setNameFormat("instance-queue-consumer-%d").build(), new ThreadPoolExecutor.AbortPolicy());
+
+    private static ConcurrentHashMap<String, Item> items = new ConcurrentHashMap<>();
+
+    public static void main(String[] args) {
+        IntStream.range(0, 10).forEach(i -> items.put("item" + i, new Item("item" + i)));
+        new ObjectLock().right();
+        LockSupport.park(ObjectLock.class);
+    }
+
+    public long right() {
+        long begin = System.currentTimeMillis();
+        long success = IntStream.rangeClosed(1, 100).parallel()
+                .mapToObj(i -> {
+                    List<Item> cart = createCart().stream()
+                            .sorted(Comparator.comparing(Item::getName))
+                            .collect(Collectors.toList());
+                    return createOrder(cart);
+                })
+                .filter(result -> result)
+                .count();
+        log.info("success:{} totalRemaining:{} took:{}ms items:{}",
+                success,
+                items.entrySet().stream().map(item -> item.getValue().remaining).reduce(0, Integer::sum),
+                System.currentTimeMillis() - begin, items);
+        return success;
+    }
+
+
+    public static void sleep(Long ms) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private List<Item> createCart() {
+        return IntStream.rangeClosed(1, 3)
+                .mapToObj(i -> "item" + ThreadLocalRandom.current().nextInt(items.size()))
+                .map(name -> items.get(name)).collect(Collectors.toList());
+    }
+
+
+    private boolean createOrder(List<Item> order) {
+        //存放所有获得的锁
+        List<ReentrantLock> locks = new ArrayList<>();
+
+        for (Item item : order) {
+            try {
+                //获得锁10秒超时
+                if (item.lock.tryLock(10, TimeUnit.SECONDS)) {
+                    locks.add(item.lock);
+                } else {
+                    locks.forEach(ReentrantLock::unlock);
+                    return false;
+                }
+            } catch (InterruptedException e) {
+            }
+        }
+        //锁全部拿到之后执行扣减库存业务逻辑
+        try {
+            order.forEach(item -> item.remaining--);
+        } finally {
+            locks.forEach(ReentrantLock::unlock);
+        }
+        return true;
+    }
+}
+
+

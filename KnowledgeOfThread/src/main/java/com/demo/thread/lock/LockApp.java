@@ -60,6 +60,9 @@ public class LockApp {
             });
         }
         log.info("主线程结束,一共使用了{}ms", System.currentTimeMillis() - begin);
+        sleep(100000L);
+        log.info("主线程正式结束,一共使用了{}ms", System.currentTimeMillis() - begin);
+        instanceQueueConsumerThreadPool.shutdown();
     }
 
 
