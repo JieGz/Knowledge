@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -37,6 +38,8 @@ public class Main {
         predicateInterface();
 
         testB();
+        System.out.println("----2021-06-21----");
+        test20210621();
     }
 
 
@@ -169,6 +172,11 @@ public class Main {
 
     }
 
+    private static void test20210621() {
+        Map<String, Student> collect = getStudent().stream().collect(Collectors.toMap(Student::getName, Function.identity(), (student, student2) -> student2));
+        System.out.println(collect);
+    }
+
     private static void predicateInterface() {
         Set<Student> students = getStudent();
         Predicate<Student> namePredicate = student -> Objects.equals(student.getName(), "小强");
@@ -187,7 +195,8 @@ public class Main {
         return Stream.of(
                 Student.builder().name("小美").grade("三年级").course(Arrays.asList("history", "math", "geography")).build(),
                 Student.builder().name("小强").grade("三年级").course(Arrays.asList("economics", "chinese", "math")).build(),
-                Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build()
+                Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build(),
+                Student.builder().name("小豪").grade("五年级").course(Arrays.asList("biology", "science", "english")).build()
         ).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 

@@ -15,6 +15,8 @@ import java.time.temporal.IsoFields;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalUnit;
 import java.time.temporal.WeekFields;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,7 +32,7 @@ public class TestLocalDateTime {
 
 
         //格式化时间
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         // String startTime = LocalDateTime.now().format(formatter);
         //System.out.println(startTime);
         LocalDateTime st = LocalDateTime.of(LocalDate.parse("2021-03-11"), LocalTime.MIN);
@@ -53,7 +55,7 @@ public class TestLocalDateTime {
 
 
         //周
-        System.out.println("------");
+        System.out.println("------周");
         //当前时间
         System.out.println(LocalDateTime.now());
         //当前时间为这个星期的第几天(周一算起)
@@ -70,6 +72,7 @@ public class TestLocalDateTime {
         System.out.println(LocalDateTime.now().minusDays(LocalDateTime.now().get(WeekFields.ISO.dayOfWeek())).with(DayOfWeek.MONDAY).with(LocalTime.MIN));
         //上周的第一天的起始时间(周日算起)
         System.out.println(LocalDateTime.now().minusDays(LocalDateTime.now().get(WeekFields.SUNDAY_START.dayOfWeek())).with(DayOfWeek.MONDAY).with(LocalTime.MIN));
+        System.out.println(LocalDateTime.now().plusDays(7 - LocalDateTime.now().get(WeekFields.ISO.dayOfWeek())).with(DayOfWeek.MONDAY).with(LocalTime.MIN));
 
         System.out.println("-------月");
         //月
@@ -102,6 +105,19 @@ public class TestLocalDateTime {
         System.out.println(System.currentTimeMillis());
         System.out.println(Instant.now().toEpochMilli());
         System.out.println(Instant.now().getEpochSecond());
+
+        System.out.println("---------时间计算");
+        List<LocalDateTime> times = new ArrayList<>(60);
+        LocalDateTime dateTime = LocalDateTime.of(2021, 6, 25, 0, 0, 0);
+        LocalDateTime endTime = dateTime.plusHours(1L);
+        while (!dateTime.isEqual(endTime)) {
+            times.add(dateTime);
+            dateTime = dateTime.plusMinutes(1L);
+        }
+
+        System.out.println(times.size());
+        times.forEach(System.out::println);
+
     }
 
     private static TemporalUnit unit(String exp) {

@@ -2,6 +2,7 @@ package com.demo.thread.future.task;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import jdk.nashorn.api.scripting.ScriptUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CompletableFuture;
@@ -13,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -25,9 +27,7 @@ public class FutureTaskDemo {
             new SynchronousQueue<>(), new ThreadFactoryBuilder().setNameFormat("instance-queue-consumer-%d").build(), new ThreadPoolExecutor.AbortPolicy());
 
     public static void main(String[] args) {
-        for (int i = 0; i < instanceQueueConsumerThreadPool.getCorePoolSize() / 2; i++) {
-            test3();
-        }
+        test4();
         LockSupport.park(FutureTaskDemo.class);
     }
 
@@ -111,13 +111,46 @@ public class FutureTaskDemo {
             if (e == null && schedulerBean.getFlag()) {
                 log.info("succeed: 一共使用了:{}s", stopwatch.elapsed(TimeUnit.SECONDS));
             } else {
-                log.error("defeated: 一共使用了:{}ms,失败原因:{}", stopwatch.elapsed(TimeUnit.MILLISECONDS),schedulerBean.getExceptionMessage());
+                log.error("defeated: 一共使用了:{}ms,失败原因:{}", stopwatch.elapsed(TimeUnit.MILLISECONDS), schedulerBean.getExceptionMessage());
             }
             test3();
         });
     }
 
     public static void test4() {
-        test4();
+        //1. 通过线程池来消费
+        Supplier<SchedulerBean> command = () -> {
+            Stopwatch stopwatch = Stopwatch.createStarted();
+            //1. 从实例队列中取出实例上下文
+            log.info("CompletableFuture使用的线程名称:{}", Thread.currentThread().getName());
+            long sleep = 10000;
+            try {
+                TimeUnit.MILLISECONDS.sleep(sleep);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                log.error("jjaaal");
+            }
+            log.info("{}线程执行完毕", Thread.currentThread().getName());
+            return SchedulerBean.builder().stopwatch(stopwatch).flag(true).build();
+        };
+        CompletableFuture<SchedulerBean> future = null;
+        try {
+            future = CompletableFuture.supplyAsync(command, instanceQueueConsumerThreadPool);
+            future.whenComplete((schedulerBean, e) -> {
+                Stopwatch stopwatch = schedulerBean.getStopwatch();
+                if (e == null && schedulerBean.getFlag()) {
+                    log.info("succeed: 一共使用了:{}s", stopwatch.elapsed(TimeUnit.SECONDS));
+                } else {
+                    log.error("defeated: 一共使用了:{}ms,失败原因:{}", stopwatch.elapsed(TimeUnit.MILLISECONDS), schedulerBean.getExceptionMessage());
+                }
+                //test4();
+            }).get(3, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (future != null) {
+                future.cancel(true);
+                future.exceptionally(throwable -> SchedulerBean.builder().stopwatch(null).build());
+            }
+        }
     }
 }
