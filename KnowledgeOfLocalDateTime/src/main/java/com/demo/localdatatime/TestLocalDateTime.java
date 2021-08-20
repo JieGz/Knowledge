@@ -118,6 +118,11 @@ public class TestLocalDateTime {
         System.out.println(times.size());
         times.forEach(System.out::println);
 
+        LocalDateTime time = LocalDateTime.of(2021, 8, 8, 0, 0, 0);
+        DayOfWeek week = time.getDayOfWeek();
+        System.out.println(week.getValue());
+        int dayOfMonth = time.getDayOfMonth();
+        System.out.println(dayOfMonth);
     }
 
     private static TemporalUnit unit(String exp) {

@@ -34,4 +34,7 @@ include 'KnowledgeOfReflect'
 include 'KnowledgeOfSqlParse'
 include 'KnowledgeOfProducerAndConsumer'
 include 'KnowledgeOfWheelTimer'
+include 'KnowledgeOfHadoop'
+include 'KnowledgeOfScala'
+include 'KnowledgeOfScala'
 

@@ -22,24 +22,7 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
-        learnStream();
-        reduce3th();
-
-        collectEle();
-
-        groupBY();
         groupBY2Set();
-        multipleGroupingBy();
-        groupingByAndJoining();
-        groupingByCustomer();
-        System.out.println("----2021-03-29----");
-        selectCourseType();
-        functionInterface();
-        predicateInterface();
-
-        testB();
-        System.out.println("----2021-06-21----");
-        test20210621();
     }
 
 
