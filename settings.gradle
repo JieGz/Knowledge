@@ -37,4 +37,5 @@ include 'KnowledgeOfWheelTimer'
 include 'KnowledgeOfHadoop'
 include 'KnowledgeOfScala'
 include 'KnowledgeOfScala'
+include 'KnowledgeOfFlink'
 

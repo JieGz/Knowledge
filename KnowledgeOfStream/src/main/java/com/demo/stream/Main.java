@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -22,7 +21,9 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
-        groupBY2Set();
+        //  groupBY2Set();
+
+        test20210915();
     }
 
 
@@ -166,12 +167,47 @@ public class Main {
         students.stream().filter(namePredicate).collect(Collectors.toSet()).forEach(System.out::println);
     }
 
+    private static void test20210915() {
+        Map<String, List<ClassMate>> collect = getMates().stream().collect(Collectors.groupingBy(ClassMate::grade));
+        List<ClassMateTree> tree = tree(collect);
+        System.out.println(tree);
+    }
+
+    private static List<ClassMateTree> tree(Map<String, List<ClassMate>> collect) {
+        List<ClassMateTree> trees = new ArrayList<>();
+        collect.forEach((product, classMates) -> {
+            trees.add(doTree(product, classMates));
+        });
+        return trees;
+    }
+
+    private static ClassMateTree doTree(String flag, List<ClassMate> classMates) {
+        ClassMateTree tree = new ClassMateTree();
+        tree.setName(flag);
+        Map<String, List<ClassMate>> map = classMates.stream().collect(Collectors.groupingBy(ClassMate::clazz));
+        map.forEach((clazz, mates) -> {
+            ClassMateTree node = new ClassMateTree();
+            node.setName(clazz);
+            Set<String> collect = classMates.stream().map(ClassMate::name).collect(Collectors.toSet());
+            for (String s : collect) {
+                ClassMateTree classMateTree = new ClassMateTree();
+                classMateTree.setName(s);
+                classMateTree.setV("true");
+                node.getChildren().add(classMateTree);
+            }
+            tree.getChildren().add(node);
+        });
+        return tree;
+    }
+
+
     private static Set<ClassMate> getMates() {
         return Stream.of(ClassMate.builder().grade("三级年").clazz("二班").name("小明").sex("男").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小强").sex("男").build(),
-                ClassMate.builder().grade("三级年").clazz("二班").name("小美").sex("女").build(),
-                ClassMate.builder().grade("四级年").clazz("二班").name("小美").sex("女").build(),
-                ClassMate.builder().grade("三级年").clazz("二班").name("小花").sex("女").build()).collect(Collectors.toSet());
+                ClassMate.builder().grade("三级年").clazz("三班").name("小美").sex("女").build(),
+                ClassMate.builder().grade("四级年").clazz("二班").name("小良").sex("男").build(),
+                ClassMate.builder().grade("四级年").clazz("三班").name("小天").sex("男").build(),
+                ClassMate.builder().grade("三级年").clazz("三班").name("小花").sex("女").build()).collect(Collectors.toSet());
     }
 
     private static Set<Student> getStudent() {
