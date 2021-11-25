@@ -23,7 +23,9 @@ public class Main {
     public static void main(String[] args) {
         //  groupBY2Set();
 
-        test20210915();
+       // test20210915();
+
+        limit();
     }
 
 
@@ -66,6 +68,15 @@ public class Main {
                 (a, b) -> a * b * 2);
         //48
         System.out.println("reduce3th:" + product);
+    }
+
+    private static void limit() {
+        List<Integer> lists = new ArrayList<>();
+        lists.add(1);
+        lists.add(2);
+        lists.add(3);
+
+        System.out.println(lists.stream().limit(-1).collect(Collectors.toList()));
     }
 
     /**
