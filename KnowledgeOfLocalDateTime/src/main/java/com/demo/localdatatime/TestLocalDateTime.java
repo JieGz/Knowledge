@@ -58,6 +58,7 @@ public class TestLocalDateTime {
 
         //周
         System.out.println("------周");
+        System.out.println(LocalDateTime.now().minusWeeks(2).with(DayOfWeek.MONDAY).with(LocalTime.MIN));
         //当前时间
         System.out.println(LocalDateTime.now());
         //当前时间为这个星期的第几天(周一算起)
@@ -81,7 +82,7 @@ public class TestLocalDateTime {
         System.out.println(LocalDateTime.now());
         System.out.println(LocalDateTime.now().getDayOfMonth());
         //本月的起时时间
-        System.out.println(LocalDateTime.now().with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN));
+        System.out.println(LocalDateTime.now().minusMonths(1).with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN));
         //本月的第一个周一
         System.out.println(LocalDateTime.now().with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY)).with(LocalTime.MIN));
         LocalDateTime juneOne = LocalDateTime.of(2021, 3, 16, 0, 0, 0, 0);
@@ -92,7 +93,9 @@ public class TestLocalDateTime {
         System.out.println("----------季度");
         System.out.println(LocalDateTime.now().getMonth().firstMonthOfQuarter());
         Month firstMonthOfLastQuarter = LocalDateTime.now().getMonth().firstMonthOfQuarter().minus(3L);
+        Month sixMonthOfLastQuarter = LocalDateTime.now().getMonth().firstMonthOfQuarter().minus(2*3L);
         System.out.println(LocalDateTime.now().withMonth(firstMonthOfLastQuarter.getValue()).with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN));
+        System.out.println(LocalDateTime.now().withMonth(sixMonthOfLastQuarter.getValue()).with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN));
 
         System.out.println("----------年");
         System.out.println(LocalDateTime.now().with(TemporalAdjusters.firstDayOfYear()).with(LocalTime.MIN));
