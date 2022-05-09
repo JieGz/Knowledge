@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'org.yaml:snakeyaml:1.30'
+    implementation 'cn.hutool:hutool-all:5.7.22'
+}
