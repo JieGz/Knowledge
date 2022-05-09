@@ -41,4 +41,5 @@ include 'KnowledgeOfFlink'
 include 'KnowledgeOfSpark'
 include 'KnowledgeOfSnappy'
 include 'KnowledgeOfSnappy'
+include 'KnowledgeOfYaml'
 
