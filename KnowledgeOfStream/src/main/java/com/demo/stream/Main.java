@@ -1,8 +1,11 @@
 package com.demo.stream;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +26,66 @@ public class Main {
     public static void main(String[] args) {
         //  groupBY2Set();
 
-       // test20210915();
+        // test20210915();
 
-        limit();
+        //  limit();
+
+       // test20220117();
+
+        //getMates().forEach(Main::test20220118);
+        //System.out.println(map);
+        final Test test = new Test(10);
+
+        final Test foo = test.withFoo(17);
+        System.out.println(foo);
+    }
+
+    public static void test() {
+        List<DatabaseInfo> databaseInfos = new ArrayList<>();
+
+        final DatabaseInfo info = new DatabaseInfo();
+        info.setDbname("d1");
+        List<String> ids = Lists.newArrayList("t1", "t2", "t3");
+        info.setTables(ids);
+        info.setPermissions(Lists.newArrayList(1));
+        databaseInfos.add(info);
+
+        final DatabaseInfo info2 = new DatabaseInfo();
+        info2.setDbname("d1");
+        List<String> ids2 = Lists.newArrayList("t3", "t1", "t2");
+        info2.setTables(ids2);
+        info2.setPermissions(Lists.newArrayList(2));
+        databaseInfos.add(info2);
+
+        final DatabaseInfo info3 = new DatabaseInfo();
+        info3.setDbname("d1");
+        List<String> ids3 = Lists.newArrayList("t1", "t2");
+        info3.setTables(ids3);
+        info3.setPermissions(Lists.newArrayList(3));
+        databaseInfos.add(info3);
+
+        // System.out.println(databaseInfos);
+
+        Map<List<String>, DatabaseInfo> map = new HashMap<>();
+
+        for (DatabaseInfo databaseInfo : databaseInfos) {
+            final Set<List<String>> lists = map.keySet();
+            final List<String> tables = databaseInfo.getTables();
+            boolean sampleTables = false;
+            for (List<String> list : lists) {
+                if (list.size() == tables.size() && list.containsAll(tables)) {
+                    final List<Integer> permissions = map.get(list).getPermissions();
+                    permissions.addAll(databaseInfo.getPermissions());
+                    sampleTables = true;
+                    break;
+                }
+            }
+            if (!sampleTables) {
+                map.put(tables, databaseInfo);
+            }
+        }
+        System.out.println(map);
+
     }
 
 
@@ -77,6 +137,7 @@ public class Main {
         lists.add(3);
 
         System.out.println(lists.stream().limit(-1).collect(Collectors.toList()));
+
     }
 
     /**
@@ -213,12 +274,10 @@ public class Main {
 
 
     private static Set<ClassMate> getMates() {
-        return Stream.of(ClassMate.builder().grade("三级年").clazz("二班").name("小明").sex("男").build(),
+        return Stream.of(ClassMate.builder().grade("五级年").clazz("二班").name("小明").sex("男").build(),
                 ClassMate.builder().grade("三级年").clazz("二班").name("小强").sex("男").build(),
-                ClassMate.builder().grade("三级年").clazz("三班").name("小美").sex("女").build(),
-                ClassMate.builder().grade("四级年").clazz("二班").name("小良").sex("男").build(),
-                ClassMate.builder().grade("四级年").clazz("三班").name("小天").sex("男").build(),
-                ClassMate.builder().grade("三级年").clazz("三班").name("小花").sex("女").build()).collect(Collectors.toSet());
+                ClassMate.builder().grade("四级年").clazz("三班").name("小美").sex("女").build(),
+                ClassMate.builder().grade("五级年").clazz("三班").name("小花").sex("女").build()).collect(Collectors.toSet());
     }
 
     private static Set<Student> getStudent() {
@@ -228,6 +287,39 @@ public class Main {
                 Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build(),
                 Student.builder().name("小豪").grade("五年级").course(Arrays.asList("biology", "science", "english")).build()
         ).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static void test20220117() {
+        final Set<Student> students = getStudent();
+        final Map<String, Set<String>> map = students.stream().collect(Collectors.groupingBy(Student::getName, Collectors.mapping(Student::getGrade, Collectors.toSet())));
+        System.out.println(map);
+
+        final Map<String, Set<Student>> mapSet = students.stream().collect(Collectors.groupingBy(Student::getName, Collectors.toSet()));
+        System.out.println(mapSet);
+
+        final Set<String> names = students.stream().map(Student::getName).collect(Collectors.toSet());
+        names.addAll(students.stream().map(Student::getGrade).collect(Collectors.toSet()));
+        System.out.println(names);
+
+        final Map<String, Student> listMap = students.stream().collect(Collectors.toMap(Student::getName, Function.identity(), (student, student2) -> student2));
+        listMap.putAll(students.stream().collect(Collectors.toMap(Student::getGrade, Function.identity(), (student, student2) -> student2)));
+        System.out.println(listMap);
+    }
+
+    private static final Map<String, ClassMate> map = new HashMap<>();
+
+    private static void test20220118(ClassMate classMate) {
+        ClassMate c = null;
+        if (map.containsKey(classMate.grade())) {
+            c = map.get(classMate.grade());
+        } else {
+            c = new ClassMate();
+            map.put(classMate.grade(), c);
+            c.name(classMate.name());
+            c.clazz(classMate.clazz());
+            c.grade(classMate.grade());
+        }
+        c.sex("666");
     }
 
     private static void testB() {

@@ -39,4 +39,6 @@ include 'KnowledgeOfScala'
 include 'KnowledgeOfScala'
 include 'KnowledgeOfFlink'
 include 'KnowledgeOfSpark'
+include 'KnowledgeOfSnappy'
+include 'KnowledgeOfSnappy'
 

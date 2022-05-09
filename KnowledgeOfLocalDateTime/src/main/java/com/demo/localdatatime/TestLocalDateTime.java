@@ -8,9 +8,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.Year;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.IsoFields;
@@ -26,6 +25,24 @@ import java.util.Objects;
  * @date 2019/03/22
  */
 public class TestLocalDateTime {
+    /** 不会出错的格式化 */
+//    private static DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().appendValue(ChronoField.YEAR) //年
+//            .appendLiteral("-")
+//            .appendValue(ChronoField.MONTH_OF_YEAR) //月
+//            .appendLiteral("-")
+//            .appendValue(ChronoField.DAY_OF_MONTH) //日
+//            .appendLiteral(" ")
+//            .appendValue(ChronoField.HOUR_OF_DAY) //时
+//            .appendLiteral(":")
+//            .appendValue(ChronoField.MINUTE_OF_HOUR) //分
+//            .appendLiteral(":")
+//            .appendValue(ChronoField.SECOND_OF_MINUTE) //秒
+//            .appendLiteral(".")
+//            .appendValue(ChronoField.MILLI_OF_SECOND) //毫秒
+//            .toFormatter();
+
+    private static DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     public static void main(String[] args) {
         /*LocalDateTime now = LocalDateTime.of(2019, 03, 25, 00, 00, 00);
         System.out.println(now);
@@ -128,6 +145,8 @@ public class TestLocalDateTime {
         System.out.println(week.getValue());
         int dayOfMonth = time.getDayOfMonth();
         System.out.println(dayOfMonth);
+
+        System.out.println(LocalDateTime.now().format(dateTimeFormatter));
     }
 
     private static TemporalUnit unit(String exp) {

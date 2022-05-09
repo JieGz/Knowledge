@@ -8,17 +8,31 @@ import java.util.regex.Pattern;
  * @date 2021-02-04 11:04
  */
 public class Demo {
-    private static final Pattern pattern = Pattern.compile("\\d+");
+    public static Pattern SQL_FORMAT = Pattern.compile("--.*\n|--.*\r\n");
 
     public static void main(String[] args) {
-        String line = "aaa2233bbb";
-        Matcher matcher = pattern.matcher(line);
-        //String group = matcher.group();
-        //System.out.println(group);
+        String sql = "-- 我是注释\n SELECT 1;\n -- 我也是注释\r\n -- 我也也是注释\n SELECT 2;\n SELECT 3; ";
 
-        String regEx = "[a-z]";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(line);
-        System.out.println(m.replaceAll("").trim());
+        final Matcher m = SQL_FORMAT.matcher(sql);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            String group = m.group(0);
+            group = "NEW_LINE" + group + "NEW_LINE";
+            m.appendReplacement(sb, group);
+        }
+        m.appendTail(sb);
+        System.out.println(sb);
+
+        System.out.println("------------");
+
+        String newSql = sb.toString();
+        System.out.println(newSql);
+        String s = newSql.replaceAll("\n", "");
+        System.out.println("------------");
+         String new_line = s.replaceAll("NEW_LINE NEW_LINE|NEW_LINE", "\n").trim();
+        System.out.println(new_line);
+        System.out.println("------------");
+        System.out.println(SqlCommentUtil.format(sql));
+
     }
 }

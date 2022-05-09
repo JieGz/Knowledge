@@ -1,5 +1,6 @@
 package com.demo;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import org.junit.Test;
 
@@ -11,6 +12,15 @@ import java.util.StringJoiner;
  * @date 2020/05/09
  */
 public class SplitterTest {
+
+    @Test
+    public void splitter_1() {
+        final String content = "a;b;c;";
+        final List<String> strings = Splitter.on(";").omitEmptyStrings().splitToList(content);
+        System.out.println(strings);
+        System.out.println(strings.size());
+
+    }
 
     @Test
     public void splitter_on() {
@@ -58,5 +68,14 @@ public class SplitterTest {
             value.add("number").add("=").add(condition);
         }
         System.out.println(value);
+    }
+
+    @Test
+    public void splitter() {
+        String url = "https://git.duowan.com/bigdata/dp/stream-data-jar.git";
+        url = url.replace("https://git.duowan.com/", "").replace("http://git.duowan.com/", "").replace(".git", "");
+        final List<String> list = Splitter.on("/").splitToList(url);
+        final String join = Joiner.on("-").join(list);
+        System.out.println(join);
     }
 }
