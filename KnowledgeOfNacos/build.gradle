@@ -1,0 +1,5 @@
+dependencies {
+    implementation 'com.alibaba.nacos:nacos-client:1.3.4'
+    implementation 'org.yaml:snakeyaml:1.30'
+    implementation 'cn.hutool:hutool-all:5.7.22'
+}
