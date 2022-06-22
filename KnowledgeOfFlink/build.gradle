@@ -1,6 +1,15 @@
+plugins{
+    id 'java'
+}
+
 dependencies {
     implementation(project(":KnowledgeOfLog"))
-    implementation 'org.apache.flink:flink-walkthrough-common_2.11:1.11.4'
-    implementation 'org.apache.flink:flink-streaming-java_2.11:1.11.4'
-    implementation 'org.apache.flink:flink-clients_2.11:1.11.4'
+    implementation 'org.apache.flink:flink-java:1.15.0'
+    implementation 'org.apache.flink:flink-clients:1.15.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.demo.Example'
+    }
 }

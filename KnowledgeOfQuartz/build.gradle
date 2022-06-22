@@ -1,4 +1,4 @@
 dependencies {
-    compile(project(":KnowledgeOfLog"))
+    implementation(project(":KnowledgeOfLog"))
     implementation('org.quartz-scheduler:quartz:2.3.0')
 }
