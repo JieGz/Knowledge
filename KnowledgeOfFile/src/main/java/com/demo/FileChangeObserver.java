@@ -3,6 +3,7 @@ package com.demo;
 import org.apache.commons.io.comparator.NameFileComparator;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -24,6 +25,8 @@ public class FileChangeObserver implements Serializable {
 
     private final FileWrapper rootFileWrapper;
 
+    private final FileFilter fileFilter;
+
     private final Comparator<File> comparator = NameFileComparator.NAME_COMPARATOR;
 
 
@@ -31,12 +34,29 @@ public class FileChangeObserver implements Serializable {
         this(new File(directoryName));
     }
 
-    public FileChangeObserver(final File directory) {
-        this(new FileWrapper(directory));
+    public FileChangeObserver(final String directoryName, final FileFilter fileFilter) {
+        this(new File(directoryName), fileFilter);
     }
 
-    protected FileChangeObserver(FileWrapper rootFileWrapper) {
+    public FileChangeObserver(final File directory) {
+        this(new FileWrapper(directory), null);
+    }
+
+    public FileChangeObserver(final File directory, final FileFilter fileFilter) {
+        this(new FileWrapper(directory), fileFilter);
+    }
+
+    protected FileChangeObserver(FileWrapper rootFileWrapper, final FileFilter fileFilter) {
+
+        if (rootFileWrapper == null) {
+            throw new IllegalArgumentException("Root entry is missing");
+        }
+        if (rootFileWrapper.getFile() == null) {
+            throw new IllegalArgumentException("Root directory is missing");
+        }
+
         this.rootFileWrapper = rootFileWrapper;
+        this.fileFilter = fileFilter;
     }
 
     public File getDirectory() {
@@ -144,7 +164,7 @@ public class FileChangeObserver implements Serializable {
     private File[] listFiles(final File file) {
         File[] children = null;
         if (file.isDirectory()) {
-            children = file.listFiles();
+            children = Objects.isNull(fileFilter) ? file.listFiles() : file.listFiles(fileFilter);
         }
         if (Objects.isNull(children)) {
             children = EMPTY_FILE_ARRAY;
