@@ -10,6 +10,13 @@ public interface FileChangeListener {
 
 
     /**
+     * File system observer started checking event.
+     *
+     * @param observer The file system observer
+     */
+    void onStart(final FileChangeObserver observer);
+
+    /**
      * Directory created Event.
      *
      * @param directory The directory created
@@ -50,5 +57,12 @@ public interface FileChangeListener {
      * @param file The file deleted
      */
     void onFileDelete(final File file);
+
+    /**
+     * File system observer finished checking event.
+     *
+     * @param observer The file system observer
+     */
+    void onStop(final FileChangeObserver observer);
 
 }

@@ -4,7 +4,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serial;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.Objects;
@@ -17,7 +16,6 @@ import java.util.Objects;
  */
 public class FileWrapper implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 7294194878163915124L;
 
     static final FileWrapper[] EMPTY_FILE_WRAPPER_ARRAY = {};
