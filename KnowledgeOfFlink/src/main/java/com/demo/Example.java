@@ -71,6 +71,7 @@ public class Example {
 
     private static void unboundStreamWordCount() throws Exception {
         StreamExecutionEnvironment streamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment();
+
         final DataStreamSource<String> lineDataStreamSource = streamExecutionEnvironment.socketTextStream("localhost", 8888);
         final SingleOutputStreamOperator<Tuple2<String, Long>> wordAndOneTuple = lineDataStreamSource.flatMap((String line, Collector<Tuple2<String, Long>> out) -> {
             final String[] words = line.split(" ");

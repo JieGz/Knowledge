@@ -43,4 +43,5 @@ include 'KnowledgeOfSnappy'
 include 'KnowledgeOfSnappy'
 include 'KnowledgeOfYaml'
 include 'KnowledgeOfNacos'
+include 'KnowledgeOfFile'
 
