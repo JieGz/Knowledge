@@ -26,20 +26,20 @@ import java.util.Objects;
  */
 public class TestLocalDateTime {
     /** 不会出错的格式化 */
-//    private static DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().appendValue(ChronoField.YEAR) //年
-//            .appendLiteral("-")
-//            .appendValue(ChronoField.MONTH_OF_YEAR) //月
-//            .appendLiteral("-")
-//            .appendValue(ChronoField.DAY_OF_MONTH) //日
-//            .appendLiteral(" ")
-//            .appendValue(ChronoField.HOUR_OF_DAY) //时
-//            .appendLiteral(":")
-//            .appendValue(ChronoField.MINUTE_OF_HOUR) //分
-//            .appendLiteral(":")
-//            .appendValue(ChronoField.SECOND_OF_MINUTE) //秒
-//            .appendLiteral(".")
-//            .appendValue(ChronoField.MILLI_OF_SECOND) //毫秒
-//            .toFormatter();
+    private static DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().appendValue(ChronoField.YEAR) //年
+            .appendLiteral("-")
+            .appendValue(ChronoField.MONTH_OF_YEAR) //月
+            .appendLiteral("-")
+            .appendValue(ChronoField.DAY_OF_MONTH) //日
+            .appendLiteral(" ")
+            .appendValue(ChronoField.HOUR_OF_DAY) //时
+            .appendLiteral(":")
+            .appendValue(ChronoField.MINUTE_OF_HOUR) //分
+            .appendLiteral(":")
+            .appendValue(ChronoField.SECOND_OF_MINUTE) //秒
+            .appendLiteral(".")
+            .appendValue(ChronoField.MILLI_OF_SECOND) //毫秒
+            .toFormatter();
 
     private static DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -110,7 +110,7 @@ public class TestLocalDateTime {
         System.out.println("----------季度");
         System.out.println(LocalDateTime.now().getMonth().firstMonthOfQuarter());
         Month firstMonthOfLastQuarter = LocalDateTime.now().getMonth().firstMonthOfQuarter().minus(3L);
-        Month sixMonthOfLastQuarter = LocalDateTime.now().getMonth().firstMonthOfQuarter().minus(2*3L);
+        Month sixMonthOfLastQuarter = LocalDateTime.now().getMonth().firstMonthOfQuarter().minus(2 * 3L);
         System.out.println(LocalDateTime.now().withMonth(firstMonthOfLastQuarter.getValue()).with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN));
         System.out.println(LocalDateTime.now().withMonth(sixMonthOfLastQuarter.getValue()).with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN));
 
@@ -147,6 +147,24 @@ public class TestLocalDateTime {
         System.out.println(dayOfMonth);
 
         System.out.println(LocalDateTime.now().format(dateTimeFormatter));
+
+        formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDateTime dataTime = LocalDateTime.of(LocalDate.parse("20220814", formatter), LocalTime.MIN);
+        System.out.println(dataTime);
+        final LocalDateTime minusDays = LocalDateTime.now().minusDays(2L).with(LocalTime.MIN);
+        System.out.println(minusDays);
+        System.out.println(minusDays.isBefore(dataTime) || minusDays.isEqual(dataTime));
+        System.out.println("---------------------------");
+
+        formatter = DateTimeFormatter.ofPattern("yyyyMMddHH");
+        dataTime = LocalDateTime.parse("2022081610", formatter);
+
+        System.out.println(dataTime);
+        LocalDateTime minusHours = LocalDateTime.now().minusHours(2L);
+        minusHours = LocalDateTime.parse(minusHours.format(formatter), formatter);
+        System.out.println(minusHours);
+        System.out.println(minusHours.isBefore(dataTime) || minusHours.isEqual(dataTime));
+
     }
 
     private static TemporalUnit unit(String exp) {

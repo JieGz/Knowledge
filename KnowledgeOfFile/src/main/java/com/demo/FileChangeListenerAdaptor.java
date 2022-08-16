@@ -22,7 +22,7 @@ public class FileChangeListenerAdaptor implements FileChangeListener {
 
     @Override
     public void onDirectoryChange(File directory) {
-        log.info(directory.getPath() + "->目录被修改");
+        //log.info(directory.getPath() + "->目录被修改");
     }
 
     @Override

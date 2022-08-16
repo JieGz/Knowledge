@@ -1,6 +1,5 @@
 package com.demo;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -8,31 +7,26 @@ import java.util.regex.Pattern;
  * @date 2021-02-04 11:04
  */
 public class Demo {
-    public static Pattern SQL_FORMAT = Pattern.compile("--.*\n|--.*\r\n");
+
+    private final static Pattern PATTERN = Pattern.compile("20[2-9][0-9](0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[0-1])");
 
     public static void main(String[] args) {
-        String sql = "-- 我是注释\n SELECT 1;\n -- 我也是注释\r\n -- 我也也是注释\n SELECT 2;\n SELECT 3; ";
+        //String content = "20300816";
+        String content = "20300816";
 
-        final Matcher m = SQL_FORMAT.matcher(sql);
-        StringBuffer sb = new StringBuffer();
-        while (m.find()) {
-            String group = m.group(0);
-            group = "NEW_LINE" + group + "NEW_LINE";
-            m.appendReplacement(sb, group);
-        }
-        m.appendTail(sb);
-        System.out.println(sb);
+        //20200101~20991231
+        //String regex = "^20[2-9][0-9](0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[0-1])$";
 
-        System.out.println("------------");
+        //00-23
+        //String regex = "^[01][0-9]|2[0-3]$";
+        //00-59
+        //String regex = "^[0-5][0-9]\\.(log|txt)$";
 
-        String newSql = sb.toString();
-        System.out.println(newSql);
-        String s = newSql.replaceAll("\n", "");
-        System.out.println("------------");
-         String new_line = s.replaceAll("NEW_LINE NEW_LINE|NEW_LINE", "\n").trim();
-        System.out.println(new_line);
-        System.out.println("------------");
-        System.out.println(SqlCommentUtil.format(sql));
+        String regex = "^20[2-9][0-9](0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[0-1])$|^[01][0-9]|2[0-3]$|^[0-5][0-9]\\.(log|txt)$";
+
+        final boolean matches = Pattern.matches(regex, content);
+        System.out.println(matches);
+
 
     }
 }
