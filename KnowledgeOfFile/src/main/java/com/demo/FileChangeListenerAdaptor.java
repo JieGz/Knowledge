@@ -12,7 +12,7 @@ import java.io.File;
 public class FileChangeListenerAdaptor implements FileChangeListener {
     @Override
     public void onStart(FileChangeObserver observer) {
-       // log.info("FileChangeListenerAdaptor#onStart");
+        // log.info("FileChangeListenerAdaptor#onStart");
     }
 
     @Override
@@ -23,6 +23,11 @@ public class FileChangeListenerAdaptor implements FileChangeListener {
     @Override
     public void onDirectoryChange(File directory) {
         //log.info(directory.getPath() + "->目录被修改");
+    }
+
+    @Override
+    public void removeDirectoryMonitor(File directory) {
+        log.info(directory.getPath() + "->目录移除监听");
     }
 
     @Override
@@ -40,6 +45,12 @@ public class FileChangeListenerAdaptor implements FileChangeListener {
         log.info(file.getPath() + "->文件被修改");
     }
 
+
+    @Override
+    public void removeFileMonitor(File file) {
+        log.info(file.getPath() + "->移除监听");
+    }
+
     @Override
     public void onFileDelete(File file) {
         log.info(file.getPath() + "->文件被删除");
@@ -47,6 +58,6 @@ public class FileChangeListenerAdaptor implements FileChangeListener {
 
     @Override
     public void onStop(FileChangeObserver observer) {
-       // log.info("FileChangeListenerAdaptor#onStop");
+        // log.info("FileChangeListenerAdaptor#onStop");
     }
 }

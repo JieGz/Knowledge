@@ -31,6 +31,13 @@ public interface FileChangeListener {
     void onDirectoryChange(final File directory);
 
     /**
+     * Remove directory monitor.
+     *
+     * @param directory The directory monitor
+     */
+    void removeDirectoryMonitor(final File directory);
+
+    /**
      * Directory deleted Event.
      *
      * @param directory The directory deleted
@@ -50,6 +57,13 @@ public interface FileChangeListener {
      * @param file The file changed
      */
     void onFileChange(final File file);
+
+    /**
+     * File remove monitor.
+     *
+     * @param file The file remove monitor
+     */
+    void removeFileMonitor(final File file);
 
     /**
      * File deleted Event.

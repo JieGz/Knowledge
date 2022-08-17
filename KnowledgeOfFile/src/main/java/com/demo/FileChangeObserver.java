@@ -133,7 +133,12 @@ public class FileChangeObserver implements Serializable {
                 c++;
             } else {
                 checkAndNotify(wrapper, wrapper.getChildren(), EMPTY_FILE_ARRAY);
-                doDelete(wrapper);
+                final File file = wrapper.getFile();
+                if (file.exists()) {
+                    removeMonitor(wrapper);
+                } else {
+                    doDelete(wrapper);
+                }
             }
         }
         for (; c < files.length; c++) {
@@ -197,6 +202,16 @@ public class FileChangeObserver implements Serializable {
                 } else {
                     listener.onFileChange(file);
                 }
+            }
+        }
+    }
+
+    private void removeMonitor(final FileWrapper wrapper) {
+        for (FileChangeListener listener : listeners) {
+            if (wrapper.isDirectory()) {
+                listener.removeDirectoryMonitor(wrapper.getFile());
+            } else {
+                listener.removeFileMonitor(wrapper.getFile());
             }
         }
     }
