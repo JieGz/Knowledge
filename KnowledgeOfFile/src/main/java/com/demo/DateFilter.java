@@ -70,7 +70,7 @@ public class DateFilter implements FileFilter {
 
     private boolean dayExpired(final String date, final String replayTime) {
         //将day转成一个LocalDateTime
-        final LocalDateTime dataTime = LocalDateTime.of(LocalDate.parse(date, formatter), LocalTime.MIN);
+        final LocalDateTime dataTime = LocalDate.parse(date, formatter).atTime(LocalTime.MIN);
         //和当前的时间进行对比,判断是否在两天内
         LocalDateTime validTime;
         if (Strings.isNullOrEmpty(replayTime)) {
@@ -89,7 +89,7 @@ public class DateFilter implements FileFilter {
             LocalDateTime dataTime = LocalDateTime.parse(date + hour, hourFormatter);
             LocalDateTime validTime;
             if (Strings.isNullOrEmpty(replayTime)) {
-                validTime = LocalDateTime.parse(LocalDateTime.now().format(hourFormatter), hourFormatter);
+                validTime = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
             } else {
                 validTime = LocalDateTime.of(LocalDate.parse(replayTime, replayTimeFormatter), LocalTime.MIN);
             }
@@ -112,9 +112,7 @@ public class DateFilter implements FileFilter {
                     LocalDateTime dataTime = LocalDateTime.parse(date + hour + min, minuteFormatter);
                     LocalDateTime validTime;
                     if (Strings.isNullOrEmpty(replayTime)) {
-                        final LocalDate localDate = LocalDateTime.now().toLocalDate();
-                        final LocalTime localTime = LocalDateTime.now().toLocalTime().withSecond(0);
-                        validTime = LocalDateTime.parse(LocalDateTime.of(localDate, localTime).format(replayTimeFormatter), replayTimeFormatter);
+                        validTime = LocalDateTime.now().withSecond(0).withNano(0);
                     } else {
                         validTime = LocalDateTime.parse(replayTime, replayTimeFormatter);
                     }

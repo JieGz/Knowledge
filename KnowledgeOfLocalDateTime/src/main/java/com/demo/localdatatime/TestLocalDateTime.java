@@ -39,6 +39,7 @@ public class TestLocalDateTime {
             .appendValue(ChronoField.SECOND_OF_MINUTE) //秒
             .appendLiteral(".")
             .appendValue(ChronoField.MILLI_OF_SECOND) //毫秒
+            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             .toFormatter();
 
     private static DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -165,6 +166,14 @@ public class TestLocalDateTime {
         System.out.println(minusHours);
         System.out.println(minusHours.isBefore(dataTime) || minusHours.isEqual(dataTime));
 
+        System.out.println("----------------------");
+        formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        System.out.println(formatter.format(LocalDateTime.now().withSecond(0)));
+        System.out.println(LocalDateTime.now().withSecond(0).withNano(0));
+        System.out.println(LocalDateTime.parse(LocalDateTime.now().withSecond(0).format(formatter), formatter));
+        final LocalDateTime time1 = LocalDateTime.parse(LocalDateTime.now().withSecond(0).format(formatter), formatter);
+        final LocalDateTime time2 = LocalDateTime.now().withSecond(0).withNano(0);
+        System.out.println(time1.isEqual(time2));
     }
 
     private static TemporalUnit unit(String exp) {
