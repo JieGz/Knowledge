@@ -6,6 +6,9 @@ package android.location;
  */
 public class Main {
     public static void main(String[] args) {
-        new Son();
+        //new Son();
+        Integer number = null;
+        int id = Math.abs(10 % number);
+        System.out.println(id);
     }
 }

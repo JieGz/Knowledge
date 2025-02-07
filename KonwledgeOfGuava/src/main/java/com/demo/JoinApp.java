@@ -19,5 +19,15 @@ public class JoinApp {
             joiner.add(s);
         }
         System.out.println(joiner.toString());
+
+
+        for (int i = 0; i < 24; i++) {
+            System.out.println(i + "  " + toPositive(i) + " " + toPositive(i) % 18);
+        }
+    }
+
+
+    public static int toPositive(int number) {
+        return number & Integer.MAX_VALUE;
     }
 }

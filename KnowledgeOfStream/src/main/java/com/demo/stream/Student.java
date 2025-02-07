@@ -18,4 +18,6 @@ public class Student {
     private String name;
     private String grade;
     private List<String> course = new ArrayList<>();
+
+    private int money = 10;
 }

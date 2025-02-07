@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -30,14 +31,11 @@ public class Main {
 
         //  limit();
 
-       // test20220117();
+        // test20220117();
 
         //getMates().forEach(Main::test20220118);
         //System.out.println(map);
-        final Test test = new Test(10);
-
-        final Test foo = test.withFoo(17);
-        System.out.println(foo);
+        test20230526();
     }
 
     public static void test() {
@@ -124,8 +122,7 @@ public class Main {
         lists.add(2);
         lists.add(3);
 
-        Integer product = lists.parallelStream().reduce(1, (a, b) -> a * b * 2,
-                (a, b) -> a * b * 2);
+        Integer product = lists.parallelStream().reduce(1, (a, b) -> a * b * 2, (a, b) -> a * b * 2);
         //48
         System.out.println("reduce3th:" + product);
     }
@@ -201,9 +198,9 @@ public class Main {
         Set<Student> students = getStudent();
         //Luke-VIP-SSP-No.1
         Function<Student, String> sspUser = student -> student.getName() + "-SSP";
-        Function<String, Student> before = name -> new Student(name + "-VIP", "五年级", Arrays.asList("math", "science"));
+      //  Function<String, Student> before = name -> new Student(name + "-VIP", "五年级", Arrays.asList("math", "science"));
         Function<String, String> after = name -> name + "-No.1";
-        String name = sspUser.compose(before).andThen(after).apply("Luke");
+      //  String name = sspUser.compose(before).andThen(after).apply("Luke");
         //Output:
         //Luke-VIP-SSP-No.1
 
@@ -274,19 +271,21 @@ public class Main {
 
 
     private static Set<ClassMate> getMates() {
-        return Stream.of(ClassMate.builder().grade("五级年").clazz("二班").name("小明").sex("男").build(),
-                ClassMate.builder().grade("三级年").clazz("二班").name("小强").sex("男").build(),
-                ClassMate.builder().grade("四级年").clazz("三班").name("小美").sex("女").build(),
-                ClassMate.builder().grade("五级年").clazz("三班").name("小花").sex("女").build()).collect(Collectors.toSet());
+        return Stream.of(ClassMate.builder().grade("五级年").clazz("二班").name("小明").sex("男").build(), ClassMate.builder().grade("三级年").clazz("二班").name("小强").sex("男").build(), ClassMate.builder().grade("四级年").clazz("三班").name("小美").sex("女").build(), ClassMate.builder().grade("五级年").clazz("三班").name("小花").sex("女").build()).collect(Collectors.toSet());
     }
 
     private static Set<Student> getStudent() {
-        return Stream.of(
-                Student.builder().name("小美").grade("三年级").course(Arrays.asList("history", "math", "geography")).build(),
-                Student.builder().name("小强").grade("三年级").course(Arrays.asList("economics", "chinese", "math")).build(),
-                Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build(),
-                Student.builder().name("小豪").grade("五年级").course(Arrays.asList("biology", "science", "english")).build()
-        ).collect(Collectors.toCollection(LinkedHashSet::new));
+        return Stream.of(Student.builder().name("小美").grade("三年级").course(Arrays.asList("history", "math", "geography")).build(), Student.builder().name("小强").grade("三年级").course(Arrays.asList("economics", "chinese", "math")).build(), Student.builder().name("小豪").grade("四年级").course(Arrays.asList("biology", "science", "english")).build(), Student.builder().name("小豪").grade("五年级").course(Arrays.asList("biology", "science", "english")).build()).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static Set<Student> getStudentV2() {
+        return Stream.of(Student.builder().name("小美").money(100).grade("三年级").course(Arrays.asList("history", "math", "geography")).build(), Student.builder().name("小强").money(10).grade("三年级").course(Arrays.asList("economics", "chinese", "math")).build()).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static void test20230526() {
+        final Set<Student> students = getStudentV2();
+        final Student student = students.stream().max(Comparator.comparingInt(Student::getMoney)).get();
+        System.out.println(student);
     }
 
     private static void test20220117() {

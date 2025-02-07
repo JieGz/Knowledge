@@ -174,6 +174,55 @@ public class TestLocalDateTime {
         final LocalDateTime time1 = LocalDateTime.parse(LocalDateTime.now().withSecond(0).format(formatter), formatter);
         final LocalDateTime time2 = LocalDateTime.now().withSecond(0).withNano(0);
         System.out.println(time1.isEqual(time2));
+
+        System.out.println("--------------------");
+        System.out.println(localDateTime.with(LocalTime.MAX));
+        System.out.println(localDateTime.with(LocalTime.MAX).withMinute(0).withSecond(0).withNano(0));
+        System.out.println(localDateTime.withMinute(59).withSecond(0).withNano(0));
+        System.out.println(localDateTime.plusDays(7 - time.get(WeekFields.ISO.dayOfWeek())).with(DayOfWeek.MONDAY).with(LocalTime.MIN));
+        System.out.println(localDateTime.with(DayOfWeek.SUNDAY).with(LocalTime.MIN));
+        System.out.println(localDateTime.with(TemporalAdjusters.lastDayOfMonth()).with(LocalTime.MIN));
+        System.out.println(localDateTime.with(TemporalAdjusters.lastDayOfYear()).with(TemporalAdjusters.firstDayOfMonth()).with(LocalTime.MIN));
+        System.out.println(localDateTime.withMonth(time.getMonth().firstMonthOfQuarter().plus(2L).getValue()).with(TemporalAdjusters.firstDayOfMonth())
+                .with(LocalTime.MIN));
+
+
+        final LocalDateTime value = LocalDateTime.of(2023, 9, 12, 21, 59, 20);
+        if (!value.isAfter(LocalDateTime.now().minus(30, ChronoUnit.SECONDS))) {
+            System.out.println("1111111111");
+        } else {
+            System.out.println("22222222222");
+        }
+
+
+        System.out.println("--------20240820------");
+        System.out.println(LocalDateTime.now().withMinute(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmm")));
+
+        System.out.println("---------------");
+        final LocalDateTime endTimeA = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime startTimeA = endTimeA.plusHours(-2);
+        List<String> partitionTime = new ArrayList<>();
+        while (!startTimeA.isAfter(endTimeA)) {
+            partitionTime.add(startTimeA.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm")));
+            startTimeA = startTimeA.plusHours(1);
+        }
+        System.out.println(partitionTime);
+
+        System.out.println("----------------");
+
+        // 定义两个LocalDateTime对象
+        LocalDateTime startTimeB = LocalDateTime.of(2024, 8, 19, 23, 0);
+        LocalDateTime endTimeB = LocalDateTime.of(2024, 8, 20, 0, 3);
+
+        // 计算两个LocalDateTime之间的Duration
+        Duration durationB = Duration.between(startTimeB, endTimeB);
+
+        // 获取相差的总分钟数
+        long minutes = durationB.toMinutes();
+        System.out.println("相关的minutes:" + minutes);
+
+        final LocalDateTime time3 = LocalDateTime.parse("202410211559", DateTimeFormatter.ofPattern("yyyyMMddHHmm")).withSecond(0).withNano(0);
+        System.out.println("hive的分区时间:" + time3);
     }
 
     private static TemporalUnit unit(String exp) {

@@ -45,4 +45,6 @@ include 'KnowledgeOfYaml'
 include 'KnowledgeOfNacos'
 include 'KnowledgeOfFile'
 include 'KnowledgeOfDisruptor'
+include 'KnowledgeOfHexagon'
+include 'KnowledgeOfPulsar'
 
